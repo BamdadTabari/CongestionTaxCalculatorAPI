@@ -1,6 +1,4 @@
-﻿using Calculator.Shared.EntityFramework.Configs;
-using Calculator.Shared.Enums;
-using Calculator.Shared.Services;
+﻿using Calculator.Shared.Enums;
 using Calculator.Shared.Services.Interfaces;
 using Calculator.Shared.Services.Repositories;
 

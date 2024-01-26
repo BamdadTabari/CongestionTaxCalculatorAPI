@@ -24,11 +24,11 @@ public static class ServiceInjection
         });
 
         services.AddControllers();
-        
+
         services.AddEndpointsApiExplorer();
-        
+
         services.AddSwaggerGen();
-        
+
         services.AddDbContext<AppDbContext>(options =>
           options.UseSqlServer(configuration.GetConnectionString("ServerDbConnection"))
           .EnableDetailedErrors());
