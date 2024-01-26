@@ -1,11 +1,10 @@
 ﻿using Calculator.Shared.Enums;
 
-namespace Calculator.Shared.Services.Interfaces
+namespace Calculator.Shared.Services.Interfaces;
+public interface IStaticTaxRulesService
 {
-    public interface IStaticTaxRulesService
-    {
-        bool IsItTollFreeDay(DateTime date);
-        bool IsTollFreeVehicle(VehicleType vehicle);
-        int CalculateTollFeeBasedOnTimeForGothenburg(DateTime date);
-    }
+    bool IsItTollFreeDay(DateTime date);
+    bool IsTollFreeVehicle(VehicleType vehicle);
+    int CalculateTollFeeBasedOnTimeForGothenburg(DateTime date);
 }
+
