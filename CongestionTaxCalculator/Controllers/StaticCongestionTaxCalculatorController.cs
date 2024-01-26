@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Calculator.Shared.Infrastructure.Routes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Controllers;
-[Route("api/[controller]")]
+[Route(CalculatorRotes.StaticCalc)]
 [ApiController]
 public class StaticCongestionTaxCalculatorController : ControllerBase
 {

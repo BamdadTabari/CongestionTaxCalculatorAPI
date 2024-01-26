@@ -1,9 +1,8 @@
 ﻿namespace Calculator.Shared.Infrastructure.Routes;
 
-public static class IdentityRoutes
+public static class CalculatorRotes
 {
     public const string Api = "api/";
-
-    public const string Calc = Api + "Calc/";
-
+    public const string StaticCalc = Api + "StaticCalc/";
+    public const string DynamicCalc = Api + "DynamicCalc/";
 }

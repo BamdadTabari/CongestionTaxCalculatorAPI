@@ -1,5 +1,6 @@
 ﻿using Calculator.Shared.EntityFramework.Configs;
 using Calculator.Shared.EntityFramework.Entities.TaxEntities;
+using Calculator.Shared.EntityFramework.Extensions;
 using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Interfaces;
@@ -25,6 +26,23 @@ public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesServi
         return await _queryable
             .SingleOrDefaultAsync(tr => tr.StartTime <= date && tr.EndTime >= date) ??
             throw new NullReferenceException($"there is not any tax for this date: {date}");
+    }
+
+    public async Task<TaxRule> GetClaimByIdAsync(int id)
+    {
+        return await _queryable
+        .SingleOrDefaultAsync(x => x.Id == id) ??
+            throw new NullReferenceException($"there is not any tax for this Id: {id}");
+    }
+
+    public async Task<List<TaxRule>> GetClaimsByFilterAsync(DefaultPaginationFilter filter)
+    {
+
+        return await _queryable.AsNoTracking()
+            .ApplyFilter(filter)
+            .ApplySort(filter.SortByEnum)
+            .Paginate(filter.Page, filter.PageSize)
+            .ToListAsync();
     }
 
     public bool IsItTollFreeDay(DateTime date)
@@ -67,16 +85,5 @@ public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesServi
         }
     }
 
-    public async Task<TaxRule> GetClaimByIdAsync(int id)
-    {
-        return await _queryable
-        .SingleOrDefaultAsync(x => x.Id == id) ??
-            throw new NullReferenceException($"there is not any tax for this Id: {id}");
-    }
-
-    public Task<List<TaxRule>> GetClaimsByFilterAsync(DefaultPaginationFilter filter)
-    {
-        throw new NotImplementedException();
-    }
 }
 

@@ -1,4 +1,5 @@
 ﻿using Calculator.Shared.EntityFramework.Configs;
+using Calculator.Shared.Models.AutoMapperProfiles;
 using Calculator.Shared.Services;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -22,6 +23,8 @@ public static class ServiceInjection
             var baseAddress = addressFeature.Addresses.First();
             return new HttpClient { BaseAddress = new Uri(baseAddress) };
         });
+
+        services.AddAutoMapper(typeof(TaxRulesAutoMapperProfiles));
 
         services.AddControllers();
 
