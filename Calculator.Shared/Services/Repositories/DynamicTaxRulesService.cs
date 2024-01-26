@@ -1,6 +1,7 @@
 ﻿using Calculator.Shared.EntityFramework.Configs;
 using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Enums;
+using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,5 +67,16 @@ public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesServi
         }
     }
 
+    public async Task<TaxRule> GetClaimByIdAsync(int id)
+    {
+        return await _queryable
+        .SingleOrDefaultAsync(x => x.Id == id) ??
+            throw new NullReferenceException($"there is not any tax for this Id: {id}");
+    }
+
+    public Task<List<TaxRule>> GetClaimsByFilterAsync(DefaultPaginationFilter filter)
+    {
+        throw new NotImplementedException();
+    }
 }
 

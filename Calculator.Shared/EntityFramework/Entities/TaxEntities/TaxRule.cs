@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Calculator.Shared.EntityFramework.Entities.TaxEntities;
 public class TaxRule : BaseEntity
