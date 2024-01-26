@@ -18,7 +18,6 @@ public class UnitOfWork : IUnitOfWork
 
         DynamicTaxRules = new DynamicTaxRulesService(_context);
         StaticTaxRules = new StaticTaxRulesService();
-
     }
 
     public async Task<bool> CommitAsync()

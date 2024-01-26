@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Shared", "Calculator.Shared\Calculator.Shared.csproj", "{3269FD8E-EBCE-49E9-8926-FAF97D01AD70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.XunitTest", "Calculator.XunitTest\Calculator.XunitTest.csproj", "{2E664413-7A28-4935-A6F9-B69D70C4F9E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3269FD8E-EBCE-49E9-8926-FAF97D01AD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3269FD8E-EBCE-49E9-8926-FAF97D01AD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3269FD8E-EBCE-49E9-8926-FAF97D01AD70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E664413-7A28-4935-A6F9-B69D70C4F9E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E664413-7A28-4935-A6F9-B69D70C4F9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E664413-7A28-4935-A6F9-B69D70C4F9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E664413-7A28-4935-A6F9-B69D70C4F9E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

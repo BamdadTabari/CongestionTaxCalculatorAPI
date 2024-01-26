@@ -1,4 +1,6 @@
-﻿using Calculator.Shared.Enums;
+﻿using Calculator.Shared.EntityFramework.Configs;
+using Calculator.Shared.EntityFramework.Entities.TaxEntities;
+using Calculator.Shared.Enums;
 using Calculator.Shared.Services.Interfaces;
 
 namespace Calculator.Shared.Services.Repositories
