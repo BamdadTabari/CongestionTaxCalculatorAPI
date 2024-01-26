@@ -85,5 +85,42 @@ public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesServi
         }
     }
 
+    public async Task<int> CalculateTotalFeeAsync(VehicleType vehicle, DateTime[] dates, DateTime intervalStart)
+    {
+        int totalFee = 0;
+        int maxFeeWithin60Minutes = 0;
+        foreach (DateTime date in dates)
+        {
+            if (!IsTollFreeVehicle(vehicle))
+            {
+                int tollFee = await GetTollFeeAsync(date, vehicle);
+                totalFee += tollFee;
+                if (tollFee > maxFeeWithin60Minutes)
+                    maxFeeWithin60Minutes = tollFee;
+                
+                // Check if the difference between the current date and the start of the interval is more than 60 minutes
+                if ((date - intervalStart).TotalMinutes > 60)
+                {
+                    // Reset the start of the interval to the current date
+                    intervalStart = date;
+                    // Reset the maximum fee within the 60-minute interval
+                    maxFeeWithin60Minutes = 0;
+                }
+            }
+        }
+        return Math.Max(totalFee, maxFeeWithin60Minutes);
+    }
+
+    public async Task<int> GetTollFeeAsync(DateTime date, VehicleType vehicle)
+    {
+        if (IsItTollFreeDay(date) || IsTollFreeVehicle(vehicle)) return 0;
+
+        // Fetch the tax rule for the current date
+        TaxRule taxRule = await GetTaxRuleForDateAsync(date) ??
+            throw new Exception($"No tax rule found for date {date}");
+
+        // Return the tax amount from the tax rule
+        return (int)taxRule.TaxAmount;
+    }
 }
 
