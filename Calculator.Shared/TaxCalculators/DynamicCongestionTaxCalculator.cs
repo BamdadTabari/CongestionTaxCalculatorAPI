@@ -2,7 +2,7 @@ using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Enums;
 using Calculator.Shared.Services.Interfaces;
 
-namespace congestion.calculator.TaxCalculators;
+namespace Calculator.Shared.TaxCalculators;
 
 public class DynamicCongestionTaxCalculator(IDynamicTaxRulesService taxRulesService)
 {
