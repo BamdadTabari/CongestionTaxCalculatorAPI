@@ -48,6 +48,12 @@ namespace Calculator.Shared.Services.Repositories
             }
         }
 
+        public int GetTollFee(DateTime date, VehicleType vehicle)
+        {
+            if (IsItTollFreeDay(date) || IsTollFreeVehicle(vehicle)) return 0;
+
+            return CalculateTollFeeBasedOnTimeForGothenburg(date);
+        }
 
         public bool IsItTollFreeDay(DateTime date)
         {

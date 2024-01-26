@@ -3,6 +3,6 @@
 public static class CalculatorRotes
 {
     public const string Api = "api/";
-    public const string StaticCalc = Api + "StaticCalc/";
-    public const string DynamicCalc = Api + "DynamicCalc/";
+    public const string StaticCalculator = Api + "static-calculator/";
+    public const string DynamicCalculator = Api + "dynamic-calculator/";
 }
