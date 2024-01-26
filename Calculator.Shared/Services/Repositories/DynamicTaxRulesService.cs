@@ -97,7 +97,7 @@ public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesServi
                 totalFee += tollFee;
                 if (tollFee > maxFeeWithin60Minutes)
                     maxFeeWithin60Minutes = tollFee;
-                
+
                 // Check if the difference between the current date and the start of the interval is more than 60 minutes
                 if ((date - intervalStart).TotalMinutes > 60)
                 {

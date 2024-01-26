@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
-using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Routes;
 using Calculator.Shared.Models.DataTransferObjects;
 using Calculator.Shared.Services;
-using Calculator.Shared.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Controllers;
 [Route(CalculatorRotes.DynamicCalculator)]
 [ApiController]
-public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork,IMapper mapper) : ControllerBase
+public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IMapper mapper) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
