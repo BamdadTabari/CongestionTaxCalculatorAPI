@@ -82,7 +82,7 @@ namespace Calculator.Shared.Services.Repositories
 
         public bool IsTollFreeVehicle(VehicleType vehicleType)
         {
-            var isFree = vehicleType == VehicleType.Motorbike || vehicleType == VehicleType.Bus ||
+            bool isFree = vehicleType == VehicleType.Motorbike || vehicleType == VehicleType.Bus ||
                    vehicleType == VehicleType.Diplomat || vehicleType == VehicleType.Military ||
                    vehicleType == VehicleType.Foreign || vehicleType == VehicleType.Emergency;
             if (isFree)

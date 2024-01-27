@@ -182,7 +182,7 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
 
             List<TaxRuleDto> dtos = _mapper.Map<List<TaxRuleDto>>(taxRuleList);
 
-            var result = new PaginatedList<TaxRuleDto>
+            PaginatedList<TaxRuleDto> result = new()
             {
                 Page = request.Page,
                 PageSize = request.PageSize,

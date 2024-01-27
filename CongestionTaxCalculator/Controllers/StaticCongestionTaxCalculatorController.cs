@@ -15,31 +15,42 @@ public class StaticCongestionTaxCalculatorController(IUnitOfWork unitOfWork) : C
 
     [HttpGet]
     [Route("get-tax-for-gothenburg")]
-    public int GetTaxForGothenburg(VehicleType vehicle, DateTime[] dates)
+    public IActionResult GetTaxForGothenburg(VehicleType vehicle, DateTime[] dates)
     {
-        DateTime intervalStart = dates[0];
-        int totalFee = 0;
-        foreach (DateTime date in dates)
+        try
         {
-            int nextFee = _unitOfWork.StaticTaxRules.GetTollFee(date, vehicle);
-            int tempFee = _unitOfWork.StaticTaxRules.GetTollFee(intervalStart, vehicle);
-
-            long diffInMillies = date.Millisecond - intervalStart.Millisecond;
-            long minutes = diffInMillies / 1000 / 60;
-
-            if (minutes <= 60)
+            DateTime intervalStart = dates[0];
+            int totalFee = 0;
+            foreach (DateTime date in dates)
             {
-                if (totalFee > 0) totalFee -= tempFee;
-                if (nextFee >= tempFee) tempFee = nextFee;
-                totalFee += tempFee;
+                int nextFee = _unitOfWork.StaticTaxRules.GetTollFee(date, vehicle);
+                int tempFee = _unitOfWork.StaticTaxRules.GetTollFee(intervalStart, vehicle);
+
+                long diffInMillies = date.Millisecond - intervalStart.Millisecond;
+                long minutes = diffInMillies / 1000 / 60;
+
+                if (minutes <= 60)
+                {
+                    if (totalFee > 0) totalFee -= tempFee;
+                    if (nextFee >= tempFee) tempFee = nextFee;
+                    totalFee += tempFee;
+                }
+                else
+                {
+                    totalFee += nextFee;
+                }
             }
-            else
-            {
-                totalFee += nextFee;
-            }
+            if (totalFee > 60) totalFee = 60;
+            return Ok(totalFee);
         }
-        if (totalFee > 60) totalFee = 60;
-        return totalFee;
+        catch (Exception exception)
+        {
+#if DEBUG
+            throw new Exception(exception.Message, exception.InnerException);
+#else
+            return BadRequest("An error occurred.please try again later");
+#endif
+        }
     }
 }
 

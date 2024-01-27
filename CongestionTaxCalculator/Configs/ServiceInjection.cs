@@ -18,10 +18,10 @@ public static class ServiceInjection
         services.AddSingleton(sp =>
         {
             // Get the address that the app is currently running at
-            var server = sp.GetRequiredService<IServer>();
-            var addressFeature = server.Features.Get<IServerAddressesFeature>();
-            var baseAddress = addressFeature.Addresses.First();
-            return new HttpClient { BaseAddress = new Uri(baseAddress) };
+            IServer? server = sp.GetRequiredService<IServer>();
+            IServerAddressesFeature? addressFeature = server.Features.Get<IServerAddressesFeature>();
+            string? baseAddress = addressFeature?.Addresses.First();
+            return new HttpClient { BaseAddress = new Uri(baseAddress ?? "https://localhost:7247;http://localhost:5049") };
         });
 
         services.AddAutoMapper(typeof(TaxRulesAutoMapperProfiles));

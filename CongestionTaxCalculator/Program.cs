@@ -1,6 +1,6 @@
 using CongestionTaxCalculator.Configs;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json")
             .AddEnvironmentVariables();
@@ -11,7 +11,7 @@ IWebHostEnvironment environment = builder.Environment;
 // Add services to the container.
 builder.Services.AddServices(configuration);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

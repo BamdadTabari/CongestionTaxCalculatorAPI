@@ -15,7 +15,7 @@ internal static class ConfiguredExceptionHandlerMiddleware
                 context.Response.StatusCode = (int)responseStatus;
                 context.Response.ContentType = "application/json";
 
-                var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+                Exception? error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
 
                 if (error == null)
                     return;

@@ -1,5 +1,9 @@
 # hello friend
 
+0. this is the most important=> there is not any "var" in the Programm, you can see all things Type,
+===>>> I called this "transparency" | to get a deep understanding please start with "Program.cs" :)
+
+ 
 1. I Wrote some tips and comments for you in "DynamicCongestionTaxCalculatorController.cs"
 2. now here time is 5:40 AM And Im Working 
 3. as you can see I changed whole project, but your codes and notes helped me
