@@ -28,14 +28,14 @@ public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesServi
             throw new NullReferenceException($"there is not any tax for this date: {date}");
     }
 
-    public async Task<TaxRule> GetClaimByIdAsync(int id)
+    public async Task<TaxRule> GetTaxRuleByIdAsync(int id)
     {
         return await _queryable
         .SingleOrDefaultAsync(x => x.Id == id) ??
             throw new NullReferenceException($"there is not any tax for this Id: {id}");
     }
 
-    public async Task<List<TaxRule>> GetClaimsByFilterAsync(DefaultPaginationFilter filter)
+    public async Task<List<TaxRule>> GetTaxRulesByFilterAsync(DefaultPaginationFilter filter)
     {
 
         return await _queryable.AsNoTracking()

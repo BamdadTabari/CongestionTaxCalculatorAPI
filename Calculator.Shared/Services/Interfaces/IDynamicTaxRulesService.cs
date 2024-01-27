@@ -7,8 +7,8 @@ public interface IDynamicTaxRulesService : IRepository<TaxRule>
 {
 
     #region async methods
-    Task<TaxRule> GetClaimByIdAsync(int id);
-    Task<List<TaxRule>> GetClaimsByFilterAsync(DefaultPaginationFilter filter);
+    Task<TaxRule> GetTaxRuleByIdAsync(int id);
+    Task<List<TaxRule>> GetTaxRulesByFilterAsync(DefaultPaginationFilter filter);
     Task<List<TaxRule>> GetTaxRulesAsync();
     Task<TaxRule> GetTaxRuleForDateAsync(DateTime date);
     Task<int> CalculateTotalFeeAsync(VehicleType vehicle, DateTime[] dates, DateTime intervalStart);
