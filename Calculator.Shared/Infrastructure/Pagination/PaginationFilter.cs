@@ -16,8 +16,8 @@ public record PaginationFilter
     {
     }
 
-    public int Page { get; }
-    public int PageSize { get; }
+    public int Page { get; set; }
+    public int PageSize { get; set; }
 }
 
 public record DefaultPaginationFilter : PaginationFilter
