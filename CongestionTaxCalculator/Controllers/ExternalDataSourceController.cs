@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Controllers;
 [Route("api/[controller]")]
@@ -10,6 +9,6 @@ public class ExternalDataSourceController : ControllerBase
     [Route("Test")]
     public void test()
     {
-        
+
     }
 }

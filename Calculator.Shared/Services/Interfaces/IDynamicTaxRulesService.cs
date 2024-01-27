@@ -16,7 +16,7 @@ public interface IDynamicTaxRulesService : IRepository<TaxRule>
 
     #endregion
 
-    #region syncc methods
+    #region sync methods
     bool IsTollFreeVehicle(VehicleType vehicle);
     bool IsItTollFreeDay(DateTime date);
     #endregion

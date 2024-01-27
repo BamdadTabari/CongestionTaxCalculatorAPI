@@ -4,12 +4,6 @@ using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.InMemory;
 namespace Calculator.XunitTest.Services;
 public class DynamicTaxRulesServiceTests
 {
@@ -83,7 +77,10 @@ public class DynamicTaxRulesServiceTests
     public async Task GetTaxRuleForDateAsync_ShouldReturnTaxRuleForSpecificDate()
     {
         // Arrange
-        TaxRule taxRule = new() { StartTime = DateTime.Now.AddDays(-1), EndTime = DateTime.Now.AddDays(1),
+        TaxRule taxRule = new()
+        {
+            StartTime = DateTime.Now.AddDays(-1),
+            EndTime = DateTime.Now.AddDays(1),
             TaxAmount = 8,
             City = "Gothenburg",
             Country = "Sweden",
@@ -105,7 +102,8 @@ public class DynamicTaxRulesServiceTests
     public async Task GetTaxRuleByIdAsync_ShouldReturnTaxRuleForSpecificId()
     {
         // Arrange
-        TaxRule taxRule = new () {
+        TaxRule taxRule = new()
+        {
             //Id = 1,
             StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
             EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
@@ -132,39 +130,45 @@ public class DynamicTaxRulesServiceTests
         // Arrange
         List<TaxRule> taxRules =
         [
-            new() { //Id = 1,
-            StartTime = new DateTime(2013,1,10,6,0,0),
-            EndTime = new DateTime(2013,1,10,6,29,0),
-            TaxAmount = 8,
-            City = "Gothenburg",
-            Country = "Sweden",
-            MonetaryUnit = "SEK",
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now, },
-            new() { //Id = 2,
-            StartTime = new DateTime(2013,1,10,6,0,0),
-            EndTime = new DateTime(2013,1,10,6,29,0),
-            TaxAmount = 8,
-            City = "Gothenburg",
-            Country = "Sweden",
-            MonetaryUnit = "SEK",
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now, },
-            new() { //Id = 3 ,
-            StartTime = new DateTime(2013,1,10,6,0,0),
-            EndTime = new DateTime(2013,1,10,6,29,0),
-            TaxAmount = 8,
-            City = "Gothenburg",
-            Country = "Sweden",
-            MonetaryUnit = "SEK",
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now,}
+            new()
+            { //Id = 1,
+                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
+                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                TaxAmount = 8,
+                City = "Gothenburg",
+                Country = "Sweden",
+                MonetaryUnit = "SEK",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            },
+            new()
+            { //Id = 2,
+                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
+                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                TaxAmount = 8,
+                City = "Gothenburg",
+                Country = "Sweden",
+                MonetaryUnit = "SEK",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            },
+            new()
+            { //Id = 3 ,
+                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
+                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                TaxAmount = 8,
+                City = "Gothenburg",
+                Country = "Sweden",
+                MonetaryUnit = "SEK",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            }
         ];
 
         _service.AddRange(taxRules);
         _context.SaveChanges();
 
-        DefaultPaginationFilter filter = new () { Page = 1, PageSize = 2 };
+        DefaultPaginationFilter filter = new() { Page = 1, PageSize = 2 };
 
         // Act
         List<TaxRule> result = await _service.GetTaxRulesByFilterAsync(filter);
@@ -177,7 +181,7 @@ public class DynamicTaxRulesServiceTests
     public void IsItTollFreeDay_ShouldReturnTrueIfItIsTollFreeDay()
     {
         // Arrange
-        DateTime date = new (2013, 1, 1);
+        DateTime date = new(2013, 1, 1);
 
         // Act
         bool result = _service.IsItTollFreeDay(date);
