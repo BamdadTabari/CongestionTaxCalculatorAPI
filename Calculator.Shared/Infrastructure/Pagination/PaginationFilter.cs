@@ -28,6 +28,7 @@ public record DefaultPaginationFilter : PaginationFilter
     public int? IntValue { get; set; }
     public DateTime? StartTime { get; set; }
     public DateTime? EndTime { get; set; }
+    public DateTime? ExactTime { get; set; }
     public decimal? ExactDecimalValue { get; set; }
     public decimal? BigDecimalValue { get; set; }
     public decimal? SmallDecimalValue { get; set; }
