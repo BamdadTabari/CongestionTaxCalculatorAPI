@@ -9,7 +9,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly AppDbContext _context;
 
     public IDynamicTaxRulesService DynamicTaxRules { get; }
-    public IStaticTaxRulesService StaticTaxRules { get; }
+    public IStaticTaxCalculatorService StaticTaxCalculaotr { get; }
 
 
     public UnitOfWork(AppDbContext context)
@@ -17,7 +17,7 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
 
         DynamicTaxRules = new DynamicTaxRulesService(_context);
-        StaticTaxRules = new StaticTaxRulesService();
+        StaticTaxCalculaotr = new StaticTaxCalculatorService();
     }
 
     public async Task<bool> CommitAsync()

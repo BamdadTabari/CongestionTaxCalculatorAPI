@@ -3,13 +3,13 @@ using Calculator.Shared.Services.Interfaces;
 using Calculator.Shared.Services.Repositories;
 
 namespace Calculator.XunitTest.Services;
-public class StaticTaxRulesServiceTests
+public class StaticTaxCalculatorServiceTests
 {
-    private readonly IStaticTaxRulesService _service;
+    private readonly IStaticTaxCalculatorService _service;
 
-    public StaticTaxRulesServiceTests()
+    public StaticTaxCalculatorServiceTests()
     {
-        _service = new StaticTaxRulesService();
+        _service = new StaticTaxCalculatorService();
     }
 
     [Fact]

@@ -3,7 +3,7 @@ using Calculator.Shared.Services.Interfaces;
 
 namespace Calculator.Shared.Services.Repositories
 {
-    public class StaticTaxRulesService : IStaticTaxRulesService
+    public class StaticTaxCalculatorService : IStaticTaxCalculatorService
     {
         public int CalculateTollFeeBasedOnTimeForGothenburg(DateTime date)
         {

@@ -12,9 +12,9 @@ namespace CongestionTaxCalculator.Controllers;
 // this type of constructors that I used here and in most classes in project called primary-constructors
 // allows you to have a constructor in an easier way making your code cleaner
 // the learning source https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/primary-constructors
-[Route(CalculatorRotes.DynamicCalculator)]
+[Route(CalculatorRotes.TaxRules)]
 [ApiController]
-public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IMapper mapper) : ControllerBase
+public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;

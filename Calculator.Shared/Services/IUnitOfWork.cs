@@ -5,7 +5,7 @@ namespace Calculator.Shared.Services;
 public interface IUnitOfWork : IDisposable
 {
     IDynamicTaxRulesService DynamicTaxRules { get; }
-    IStaticTaxRulesService StaticTaxRules { get; }
+    IStaticTaxCalculatorService StaticTaxCalculaotr { get; }
 
     Task<bool> CommitAsync();
 }
