@@ -108,6 +108,9 @@ public class DynamicTaxCalculator : Repository<CalculatedTax>, IDynamicTaxCalcul
                     // Reset the maximum fee within the 60-minute interval
                     maxFeeWithin60Minutes = 0;
                 }
+
+                // add Calculated Tax for Each Date Time To Database
+                SaveCalculatedTax(date, tollFee);
             }
         }
         return Math.Max(totalFee, maxFeeWithin60Minutes);
@@ -119,10 +122,42 @@ public class DynamicTaxCalculator : Repository<CalculatedTax>, IDynamicTaxCalcul
         if (IsItTollFreeDay(date) || IsTollFreeVehicle(vehicle)) return 0;
 
         // Fetch the tax rule for the current date
-        CalculatedTax calculatedTax = await _queryable.SingleOrDefaultAsync(x=>x.Date == date) ??
+        CalculatedTax calculatedTax = await _queryable.SingleOrDefaultAsync(x => x.Date == date) ??
             throw new Exception($"No calculated tax  found for date {date}");
 
         // Return the  amount from the calculated tax 
         return calculatedTax.AmountOfDay;
     }
+
+    #region helper methods
+    private void SaveCalculatedTax(DateTime dateTime, decimal tollFee)
+    {
+        try
+        {
+            if (tollFee > 60) tollFee = 60;
+            CalculatedTax calculatedTax = new()
+            {
+                Date = dateTime,
+                AmountOfDay = tollFee,
+                MonetaryUnit = "SEK",
+                City = "Gothenburg",
+                Country = "Sweden",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            Add(calculatedTax);
+            DbContext.SaveChanges();
+        }
+        catch (Exception exception)
+        {
+            // for my junior colleague: here I Used preprocessor directives 
+            //to conditionally compile code based on the configuration (Debug or Release).
+#if DEBUG
+            throw new Exception(exception.Message, exception.InnerException);
+#else
+                return BadRequest("An error occurred.please try again later");
+#endif
+        }
+    }
+    #endregion
 }

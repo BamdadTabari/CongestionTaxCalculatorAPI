@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Calculator.Shared.EntityFramework.Entities.TaxEntities;
-using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Infrastructure.Routes;
 using Calculator.Shared.Models.DataTransferObjects;
@@ -10,33 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace CongestionTaxCalculator.Controllers;
 [Route(CalculatorRotes.DynamicCalculator)]
 [ApiController]
-public class DynamicCongestionTaxController(IUnitOfWork unitOfWork, IMapper mapper) : ControllerBase
+public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IMapper mapper) : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
 
-    //    [HttpGet]
-    //    [Route("get-calculated-tax-based-on-date-times")]
-    //    public async Task<IActionResult> GetCalculatedTaxForSpesificDates(VehicleType vehicle, DateTime[] dates)
-    //    {
-    //        try
-    //        {
-    //            DateTime intervalStart = dates[0];
-    //            int totalFee = await _unitOfWork.DynamicCalculatedTaxs.CalculateTotalFeeAsync(vehicle, dates, intervalStart);
-    //            if (totalFee > 60) totalFee = 60;
-    //            return Ok(totalFee);
-    //        }
-    //        catch (Exception exception)
-    //        {
-    //            // for my junior colleague: here I Used preprocessor directives 
-    //            //to conditionally compile code based on the configuration (Debug or Release).
-    //#if DEBUG
-    //            throw new Exception(exception.Message, exception.InnerException);
-    //#else
-    //            return BadRequest("An error occurred.please try again later");
-    //#endif
-    //        }
-    //    }
+
 
 
     #region This Part is more for editors job / add/update/delete/get/ and more
