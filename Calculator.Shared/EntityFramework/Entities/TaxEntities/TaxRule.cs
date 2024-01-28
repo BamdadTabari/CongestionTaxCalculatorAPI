@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Calculator.Shared.EntityFramework.Entities.TaxEntities;
 public class TaxRule : BaseEntity
 {
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
+    public TimeOnly StartTime { get; set; }
+    public TimeOnly EndTime { get; set; }
     public string City { get; set; }
     public string Country { get; set; }
     public string MonetaryUnit { get; set; }

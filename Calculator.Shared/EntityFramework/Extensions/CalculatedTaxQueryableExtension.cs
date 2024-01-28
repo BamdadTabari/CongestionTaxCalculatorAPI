@@ -1,11 +1,6 @@
 ﻿using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Shared.EntityFramework.Extensions;
 public static class CalculatedTaxQueryableExtension
@@ -43,16 +38,16 @@ public static class CalculatedTaxQueryableExtension
             || x.Country.Equals(filter.Keyword, StringComparison.CurrentCultureIgnoreCase));
 
         // Filter By Date Time 
-        if (filter.ExactTime != null)
-            query = query.Where(x => x.Date == filter.ExactTime);
+        if (filter.ExactDateTime != null)
+            query = query.Where(x => x.Date == filter.ExactDateTime);
 
         // Filter By Start Date Time 
         if (filter.StartTime != null)
-            query = query.Where(x => x.Date >= filter.StartTime);
+            query = query.Where(x => x.Date >= filter.StartDateTime);
 
         // Filter By End Date Time 
         if (filter.StartTime != null)
-            query = query.Where(x => x.Date <= filter.EndTime);
+            query = query.Where(x => x.Date <= filter.EndDateTime);
 
         return query;
     }

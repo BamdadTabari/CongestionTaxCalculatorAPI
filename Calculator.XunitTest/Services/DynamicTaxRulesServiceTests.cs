@@ -1,6 +1,5 @@
 ﻿using Calculator.Shared.EntityFramework.Configs;
 using Calculator.Shared.EntityFramework.Entities.TaxEntities;
-using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +27,8 @@ public class DynamicTaxRulesServiceTests
             new()
             {
                 //Id = 1,
-                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                StartTime = new TimeOnly(6, 0, 0),
+                EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
                 City = "Gothenburg",
                 Country = "Sweden",
@@ -40,8 +39,8 @@ public class DynamicTaxRulesServiceTests
             new()
             {
                 //Id = 2,
-                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                StartTime = new TimeOnly(6, 0, 0),
+                EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
                 City = "Gothenburg",
                 Country = "Sweden",
@@ -52,8 +51,8 @@ public class DynamicTaxRulesServiceTests
             new()
             {
                 //Id = 3,
-                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                StartTime = new TimeOnly(6, 0, 0),
+                EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
                 City = "Gothenburg",
                 Country = "Sweden",
@@ -79,8 +78,8 @@ public class DynamicTaxRulesServiceTests
         // Arrange
         TaxRule taxRule = new()
         {
-            StartTime = DateTime.Now.AddDays(-1),
-            EndTime = DateTime.Now.AddDays(1),
+            StartTime = new TimeOnly(6, 0, 0),
+            EndTime = new TimeOnly(6, 29, 0),
             TaxAmount = 8,
             City = "Gothenburg",
             Country = "Sweden",
@@ -92,10 +91,11 @@ public class DynamicTaxRulesServiceTests
         _context.SaveChanges();
 
         // Act
-        TaxRule result = await _service.GetTaxRuleForDateAsync(DateTime.Now);
+        TaxRule result = await _service.GetTaxRuleForTimeAsync(new TimeOnly(6, 1, 30));
 
         // Assert
         Assert.NotNull(result);
+        Assert.Equal(8, result.TaxAmount);
     }
 
     [Fact]
@@ -105,8 +105,8 @@ public class DynamicTaxRulesServiceTests
         TaxRule taxRule = new()
         {
             //Id = 1,
-            StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-            EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+            StartTime = new TimeOnly(6, 0, 0),
+            EndTime = new TimeOnly(6, 29, 0),
             TaxAmount = 8,
             City = "Gothenburg",
             Country = "Sweden",
@@ -132,8 +132,8 @@ public class DynamicTaxRulesServiceTests
         [
             new()
             { //Id = 1,
-                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                StartTime = new TimeOnly(6, 0, 0),
+                EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
                 City = "Gothenburg",
                 Country = "Sweden",
@@ -143,8 +143,8 @@ public class DynamicTaxRulesServiceTests
             },
             new()
             { //Id = 2,
-                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                StartTime = new TimeOnly(6, 0, 0),
+                EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
                 City = "Gothenburg",
                 Country = "Sweden",
@@ -154,8 +154,8 @@ public class DynamicTaxRulesServiceTests
             },
             new()
             { //Id = 3 ,
-                StartTime = new DateTime(2013, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2013, 1, 10, 6, 29, 0),
+                StartTime = new TimeOnly(6, 0, 0),
+                EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
                 City = "Gothenburg",
                 Country = "Sweden",
@@ -175,61 +175,6 @@ public class DynamicTaxRulesServiceTests
 
         // Assert
         Assert.Equal(2, result.Count);
-    }
-
-    [Fact]
-    public void IsItTollFreeDay_ShouldReturnTrueIfItIsTollFreeDay()
-    {
-        // Arrange
-        DateTime date = new(2013, 1, 1);
-
-        // Act
-        bool result = _service.IsItTollFreeDay(date);
-
-        // Assert
-        Assert.True(result);
-    }
-
-    [Fact]
-    public void IsTollFreeVehicle_ShouldReturnTrueIfVehicleIsTollFree()
-    {
-        // Arrange
-        VehicleType vehicleType = VehicleType.Motorbike;
-
-        // Act
-        bool result = _service.IsTollFreeVehicle(vehicleType);
-
-        // Assert
-        Assert.True(result);
-    }
-
-    [Fact]
-    public async Task CalculateTotalFeeAsync_ShouldCalculateTotalFeeForGivenDatesAndVehicle()
-    {
-        // Arrange
-        VehicleType vehicle = VehicleType.Motorbike;
-        DateTime[] dates = { DateTime.Now, DateTime.Now.AddDays(1) };
-        DateTime intervalStart = DateTime.Now;
-
-        // Act
-        int result = await _service.CalculateTotalFeeAsync(vehicle, dates, intervalStart);
-
-        // Assert
-        Assert.True(result >= 0);
-    }
-
-    [Fact]
-    public async Task GetTollFeeAsync_ShouldReturnTollFeeForGivenDateAndVehicle()
-    {
-        // Arrange
-        DateTime date = DateTime.Now;
-        VehicleType vehicle = VehicleType.Motorbike;
-
-        // Act
-        int result = await _service.GetTollFeeAsync(date, vehicle);
-
-        // Assert
-        Assert.True(result >= 0);
     }
 }
 

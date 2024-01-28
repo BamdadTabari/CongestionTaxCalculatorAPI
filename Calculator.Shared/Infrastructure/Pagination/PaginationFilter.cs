@@ -26,9 +26,11 @@ public record DefaultPaginationFilter : PaginationFilter
     public DefaultPaginationFilter() { }
     public string? Keyword { get; set; }
     public int? IntValue { get; set; }
-    public DateTime? StartTime { get; set; }
-    public DateTime? EndTime { get; set; }
-    public DateTime? ExactTime { get; set; }
+    public TimeOnly? StartTime { get; set; }
+    public TimeOnly? EndTime { get; set; }
+    public DateTime? StartDateTime { get; set; }
+    public DateTime? EndDateTime { get; set; }
+    public DateTime? ExactDateTime { get; set; }
     public decimal? ExactDecimalValue { get; set; }
     public decimal? BigDecimalValue { get; set; }
     public decimal? SmallDecimalValue { get; set; }
