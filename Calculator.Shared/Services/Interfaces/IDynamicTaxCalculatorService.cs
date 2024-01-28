@@ -10,9 +10,9 @@ public interface IDynamicTaxCalculatorService : IRepository<CalculatedTax>
     Task<CalculatedTax> GetCalculatedTaxByIdAsync(int id);
     Task<List<CalculatedTax>> GetCalculatedTaxesByFilterAsync(DefaultPaginationFilter filter);
     Task<List<CalculatedTax>> GetCalculatedTaxesAsync();
-    Task<CalculatedTax> GetCalculatedTaxForDateAsync(DateTime date);
-    Task<int> CalculateTotalFeeForDateTimesAsync(VehicleType vehicle, DateTime[] dates, DateTime intervalStart);
-    Task<int> GetTollFeeForDateTimeAsync(DateTime date, VehicleType vehicle);
+    Task<CalculatedTax> GetCalculatedTaxForDateTimeAsync(DateTime date);
+    Task<decimal> CalculateTotalFeeForDateTimesAsync(VehicleType vehicle, DateTime[] dates, DateTime intervalStart);
+    Task<decimal> GetTollFeeForDateTimeAsync(DateTime date, VehicleType vehicle);
 
     #endregion
 

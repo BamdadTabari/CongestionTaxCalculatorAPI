@@ -23,8 +23,8 @@ public class StaticCongestionTaxCalculatorController(IUnitOfWork unitOfWork) : C
             int totalFee = 0;
             foreach (DateTime date in dates)
             {
-                int nextFee = _unitOfWork.StaticTaxCalculaotr.GetTollFee(date, vehicle);
-                int tempFee = _unitOfWork.StaticTaxCalculaotr.GetTollFee(intervalStart, vehicle);
+                int nextFee = _unitOfWork.StaticTaxCalculator.GetTollFee(date, vehicle);
+                int tempFee = _unitOfWork.StaticTaxCalculator.GetTollFee(intervalStart, vehicle);
 
                 long diffInMillies = date.Millisecond - intervalStart.Millisecond;
                 long minutes = diffInMillies / 1000 / 60;
