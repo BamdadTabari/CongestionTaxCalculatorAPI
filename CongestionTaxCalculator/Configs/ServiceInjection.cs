@@ -1,6 +1,6 @@
 ﻿using Calculator.Shared.EntityFramework.Configs;
 using Calculator.Shared.Models.AutoMapperProfiles;
-using Calculator.Shared.Services;
+using Calculator.Shared.Services.BaseAndConfigs;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.EntityFrameworkCore;

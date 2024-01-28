@@ -1,8 +1,9 @@
 ﻿using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Infrastructure.Pagination;
+using Calculator.Shared.Services.BaseAndConfigs;
 
 namespace Calculator.Shared.Services.Interfaces;
-public interface IDynamicTaxRulesService : IRepository<TaxRule>
+public interface ITaxRulesService : IRepository<TaxRule>
 {
 
     #region async methods

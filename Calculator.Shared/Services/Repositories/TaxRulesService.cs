@@ -2,15 +2,16 @@
 using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.EntityFramework.Extensions;
 using Calculator.Shared.Infrastructure.Pagination;
+using Calculator.Shared.Services.BaseAndConfigs;
 using Calculator.Shared.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Calculator.Shared.Services.Repositories;
-public class DynamicTaxRulesService : Repository<TaxRule>, IDynamicTaxRulesService
+public class TaxRulesService : Repository<TaxRule>, ITaxRulesService
 {
     private readonly IQueryable<TaxRule> _queryable;
 
-    public DynamicTaxRulesService(AppDbContext context) : base(context)
+    public TaxRulesService(AppDbContext context) : base(context)
     {
         _queryable = DbContext.Set<TaxRule>();
     }

@@ -1,6 +1,7 @@
 ﻿using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
+using Calculator.Shared.Services.BaseAndConfigs;
 
 namespace Calculator.Shared.Services.Interfaces;
 public interface IDynamicTaxCalculatorService : IRepository<CalculatedTax>

@@ -1,7 +1,7 @@
 ﻿using Calculator.Shared.EntityFramework.Entities;
 using System.Linq.Expressions;
 
-namespace Calculator.Shared.Services;
+namespace Calculator.Shared.Services.BaseAndConfigs;
 
 public interface IRepository<BaseEntity> where BaseEntity : class, IBaseEntity
 {

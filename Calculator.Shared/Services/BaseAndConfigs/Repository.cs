@@ -3,7 +3,7 @@ using Calculator.Shared.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Calculator.Shared.Services;
+namespace Calculator.Shared.Services.BaseAndConfigs;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IBaseEntity
 {

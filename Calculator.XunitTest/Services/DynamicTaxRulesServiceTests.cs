@@ -8,14 +8,14 @@ public class DynamicTaxRulesServiceTests
 {
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
-    private readonly DynamicTaxRulesService _service;
+    private readonly TaxRulesService _service;
     public DynamicTaxRulesServiceTests()
     {
         _options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(databaseName: "MyTestDb")
             .Options;
         _context = new AppDbContext(_options);
-        _service = new DynamicTaxRulesService(_context);
+        _service = new TaxRulesService(_context);
     }
 
     [Fact]

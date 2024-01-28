@@ -3,7 +3,7 @@ using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Infrastructure.Routes;
 using Calculator.Shared.Models.DataTransferObjects;
-using Calculator.Shared.Services;
+using Calculator.Shared.Services.BaseAndConfigs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Controllers;
@@ -24,7 +24,7 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
     {
         try
         {
-            TaxRule taxRule = await _unitOfWork.DynamicTaxRules.GetTaxRuleByIdAsync(id);
+            TaxRule taxRule = await _unitOfWork.TaxRules.GetTaxRuleByIdAsync(id);
             TaxRuleDto taxRuleDto = _mapper.Map<TaxRuleDto>(taxRule);
             return Ok(taxRuleDto);
         }
@@ -46,7 +46,7 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
     {
         try
         {
-            List<TaxRule> taxRuleEntityList = await _unitOfWork.DynamicTaxRules.GetTaxRulesAsync();
+            List<TaxRule> taxRuleEntityList = await _unitOfWork.TaxRules.GetTaxRulesAsync();
             List<TaxRuleDto> taxRuleDtoList = _mapper.Map<List<TaxRuleDto>>(taxRuleEntityList);
             return Ok(taxRuleDtoList);
         }
@@ -69,7 +69,7 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
         try
         {
             TaxRule entity = _mapper.Map<TaxRule>(dto);
-            await _unitOfWork.DynamicTaxRules.AddAsync(entity);
+            await _unitOfWork.TaxRules.AddAsync(entity);
             await _unitOfWork.CommitAsync();
             return Ok(entity);
         }
@@ -92,12 +92,12 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
     {
         try
         {
-            bool isExist = await _unitOfWork.DynamicTaxRules.ExistsAsync(id);
+            bool isExist = await _unitOfWork.TaxRules.ExistsAsync(id);
             if (!isExist)
                 return BadRequest($"there is not any Tax Rule with this id: {id}");
 
             TaxRule entity = _mapper.Map<TaxRule>(dto);
-            _unitOfWork.DynamicTaxRules.Update(entity);
+            _unitOfWork.TaxRules.Update(entity);
             await _unitOfWork.CommitAsync();
             return Ok(entity);
         }
@@ -119,7 +119,7 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
     {
         try
         {
-            bool isExist = await _unitOfWork.DynamicTaxRules.ExistsAsync(id);
+            bool isExist = await _unitOfWork.TaxRules.ExistsAsync(id);
             if (!isExist)
                 return BadRequest($"there is not any Tax Rule with this id: {id}");
 
@@ -131,7 +131,7 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
             {
                 Id = id
             };
-            _unitOfWork.DynamicTaxRules.Remove(entity);
+            _unitOfWork.TaxRules.Remove(entity);
             await _unitOfWork.CommitAsync();
             return Ok($"Tax Rule Removed with this Id: {id}");
         }
@@ -153,7 +153,7 @@ public class TaxRulesController(IUnitOfWork unitOfWork, IMapper mapper) : Contro
     {
         try
         {
-            List<TaxRule> taxRuleList = await _unitOfWork.DynamicTaxRules.GetTaxRulesByFilterAsync(request);
+            List<TaxRule> taxRuleList = await _unitOfWork.TaxRules.GetTaxRulesByFilterAsync(request);
 
             List<TaxRuleDto> dtos = _mapper.Map<List<TaxRuleDto>>(taxRuleList);
 

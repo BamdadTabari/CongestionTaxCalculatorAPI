@@ -2,13 +2,13 @@
 using Calculator.Shared.Services.Interfaces;
 using Calculator.Shared.Services.Repositories;
 
-namespace Calculator.Shared.Services;
+namespace Calculator.Shared.Services.BaseAndConfigs;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
 
-    public IDynamicTaxRulesService DynamicTaxRules { get; }
+    public ITaxRulesService TaxRules { get; }
     public IStaticTaxCalculatorService StaticTaxCalculaotr { get; }
 
 
@@ -16,7 +16,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
 
-        DynamicTaxRules = new DynamicTaxRulesService(_context);
+        TaxRules = new TaxRulesService(_context);
         StaticTaxCalculaotr = new StaticTaxCalculatorService();
     }
 

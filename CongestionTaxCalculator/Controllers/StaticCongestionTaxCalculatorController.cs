@@ -1,6 +1,6 @@
 ﻿using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Routes;
-using Calculator.Shared.Services;
+using Calculator.Shared.Services.BaseAndConfigs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Controllers;
