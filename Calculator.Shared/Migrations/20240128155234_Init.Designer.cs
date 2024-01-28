@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Calculator.Shared.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240127190459_FixAMistake-AddCalculatedTaxEntity")]
-    partial class FixAMistakeAddCalculatedTaxEntity
+    [Migration("20240128155234_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,15 +82,15 @@ namespace Calculator.Shared.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("MonetaryUnit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time");
 
                     b.Property<decimal>("TaxAmount")
                         .HasPrecision(18, 2)
@@ -109,120 +109,120 @@ namespace Calculator.Shared.Migrations
                             Id = 1,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3574),
-                            EndTime = new DateTime(2013, 1, 10, 6, 29, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6406),
+                            EndTime = new TimeOnly(6, 29, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 6, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(6, 0, 0),
                             TaxAmount = 8m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3590)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6427)
                         },
                         new
                         {
                             Id = 2,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3599),
-                            EndTime = new DateTime(2013, 1, 10, 6, 59, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6436),
+                            EndTime = new TimeOnly(6, 59, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 6, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(6, 30, 0),
                             TaxAmount = 13m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3600)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6437)
                         },
                         new
                         {
                             Id = 3,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3703),
-                            EndTime = new DateTime(2013, 1, 10, 7, 59, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6441),
+                            EndTime = new TimeOnly(7, 59, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 7, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(7, 0, 0),
                             TaxAmount = 18m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3705)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6442)
                         },
                         new
                         {
                             Id = 4,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3709),
-                            EndTime = new DateTime(2013, 1, 10, 8, 29, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6446),
+                            EndTime = new TimeOnly(8, 29, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(8, 0, 0),
                             TaxAmount = 13m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3710)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6447)
                         },
                         new
                         {
                             Id = 5,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3715),
-                            EndTime = new DateTime(2013, 1, 10, 14, 59, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6450),
+                            EndTime = new TimeOnly(14, 59, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(8, 30, 0),
                             TaxAmount = 8m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3716)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6451)
                         },
                         new
                         {
                             Id = 6,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3724),
-                            EndTime = new DateTime(2013, 1, 10, 15, 29, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6459),
+                            EndTime = new TimeOnly(15, 29, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(15, 0, 0),
                             TaxAmount = 13m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3725)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6460)
                         },
                         new
                         {
                             Id = 7,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3729),
-                            EndTime = new DateTime(2013, 1, 10, 16, 59, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6591),
+                            EndTime = new TimeOnly(16, 59, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(15, 30, 0),
                             TaxAmount = 18m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3731)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6593)
                         },
                         new
                         {
                             Id = 8,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3735),
-                            EndTime = new DateTime(2013, 1, 10, 17, 59, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6597),
+                            EndTime = new TimeOnly(17, 59, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(17, 0, 0),
                             TaxAmount = 13m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3736)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6598)
                         },
                         new
                         {
                             Id = 9,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3740),
-                            EndTime = new DateTime(2013, 1, 10, 18, 29, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6601),
+                            EndTime = new TimeOnly(18, 29, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(18, 0, 0),
                             TaxAmount = 8m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3741)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6603)
                         },
                         new
                         {
                             Id = 10,
                             City = "Gothenburg",
                             Country = "Sweden",
-                            CreatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3747),
-                            EndTime = new DateTime(2013, 1, 10, 5, 59, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6612),
+                            EndTime = new TimeOnly(5, 59, 0),
                             MonetaryUnit = "SEK",
-                            StartTime = new DateTime(2013, 1, 10, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new TimeOnly(18, 30, 0),
                             TaxAmount = 0m,
-                            UpdatedAt = new DateTime(2024, 1, 27, 22, 34, 57, 730, DateTimeKind.Local).AddTicks(3748)
+                            UpdatedAt = new DateTime(2024, 1, 28, 19, 22, 34, 231, DateTimeKind.Local).AddTicks(6613)
                         });
                 });
 #pragma warning restore 612, 618
