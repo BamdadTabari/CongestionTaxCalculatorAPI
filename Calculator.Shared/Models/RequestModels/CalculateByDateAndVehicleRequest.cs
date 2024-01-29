@@ -1,5 +1,4 @@
 ﻿using Calculator.Shared.Enums;
-using Calculator.Shared.Models.DataTransferObjects;
 using FluentValidation;
 
 namespace Calculator.Shared.Models.RequestModels;

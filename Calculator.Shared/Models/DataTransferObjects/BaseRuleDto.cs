@@ -2,7 +2,7 @@
 using FluentValidation;
 
 namespace Calculator.Shared.Models.DataTransferObjects;
-public class BaseRuleDto: BaseDataTransferObject
+public class BaseRuleDto : BaseDataTransferObject
 {
     public VehicleType? Vehicle { get; set; }
     public DayOfWeek? DayOfWeek { get; set; }

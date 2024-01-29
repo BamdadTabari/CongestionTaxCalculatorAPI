@@ -1,5 +1,4 @@
-﻿using Calculator.Shared.Models.DataTransferObjects;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Calculator.Shared.Models.RequestModels;
 public record CalculateByTaxRulesIdsAndDateRequest(List<int> BaseRuleIds,

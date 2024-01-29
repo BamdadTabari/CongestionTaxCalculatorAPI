@@ -28,16 +28,19 @@ public static class ServiceInjection
         services.AddAutoMapper(typeof(TaxRulesAutoMapperProfiles));
 
         services.AddControllers();
+
+        // this fluent validation => AddFluentValidationAutoValidation(): This method adds automatic validation to your application.
+        // sets up FluentValidation to automatically validate data models whenever they are used in your application.
+        //AddFluentValidationClientsideAdapters(): This method adds client - side adapters for FluentValidation.
+        //These adapters would allow you to use FluentValidation rules on the client side(in the browser)
+        //to provide real - time feedback to users before they submit forms.
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         services.AddEndpointsApiExplorer();
-
         services.AddSwaggerGen();
-
         services.AddDbContext<AppDbContext>(options =>
-          options.UseSqlServer(configuration.GetConnectionString("ServerDbConnection"))
-          .EnableDetailedErrors());
-
+        options.UseSqlServer(configuration.GetConnectionString("ServerDbConnection"))
+        .EnableDetailedErrors());
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
