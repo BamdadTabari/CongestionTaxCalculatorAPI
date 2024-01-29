@@ -1,5 +1,6 @@
 ﻿namespace Calculator.Shared.Models.RequestModels;
 
 public record CalculateByTaxRulesIdsAndDateRangeRequest(List<int> BaseRuleIds,
-                                                    DateTime Date,
+                                                    DateTime FromDate,
+                                                    DateTime ToDate,
                                                     List<TimesAndCountofVehiclesAtThoseTime> TimesAndCountOfVehicles);

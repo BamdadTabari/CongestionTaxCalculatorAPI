@@ -6,6 +6,7 @@ using Calculator.Shared.Models.DataTransferObjects;
 using Calculator.Shared.Models.RequestModels;
 using Calculator.Shared.Services.BaseAndConfigs;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace CongestionTaxCalculator.Controllers;
 [Route(CalculatorRotes.DynamicCalculator)]
@@ -22,6 +23,11 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
     {
         try
         {
+            // validate main data
+            if (request.BaseRuleIds is null || request.BaseRuleIds.Count == 0 ||
+               request.TimesAndCountOfVehicles is null || request.TimesAndCountOfVehicles.Count is 0)
+                return BadRequest("wrong data, please check your request data");
+
             // write empty variables to fill them in process
             decimal totalTaxOfDate = 0;
             string monetaryUnit = string.Empty;
@@ -34,6 +40,10 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
                 // loop throgh Times And CountOfVehicles that defined in request 
                 foreach (var TimesAndCountOfVehicle in request.TimesAndCountOfVehicles)
                 {
+                    // validate detail data
+                    if (TimesAndCountOfVehicle.FromTime >= TimesAndCountOfVehicle.ToTime || TimesAndCountOfVehicle.CountOfVehicles is 0)
+                        return BadRequest("wrong data, please check your request data");
+
                     // get tax rules with help of DefaultPaginationFilter
                     // this filters are not just defined for paging we can use them more, ofcurse with a good written service method 
                     List<TaxRule> taxRules = await _unitOfWork.TaxRules
@@ -82,12 +92,16 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
 
     [HttpGet]
     [Route("get-calculated-tax-of-date-range-by-tax-rules-ids-and-date-range-request")]
-    public async Task<IActionResult> GetCalculatedTaxByRequestForTheRangeOfDateAsync([FromBody] CalculateByTaxRulesIdsAndDateRequest request)
+    public async Task<IActionResult> GetCalculatedTaxByRequestForTheRangeOfDateAsync([FromBody] CalculateByTaxRulesIdsAndDateRangeRequest request)
     {
         try
         {
+            if (request.FromDate >= request.ToDate || request.BaseRuleIds is null || request.BaseRuleIds.Count == 0 ||
+                request.TimesAndCountOfVehicles is null || request.TimesAndCountOfVehicles.Count == 0)
+                return BadRequest("wrong data");
+
             // write empty variables to fill them in process
-            decimal totalTaxOfDate = 0;
+            decimal totalTaxOfDateRange = 0;
             string monetaryUnit = string.Empty;
 
             // first get all base rules that let tax be consider in calcualation
@@ -109,7 +123,7 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
                         EndTime = TimesAndCountOfVehicle.ToTime
                     });
                     // simply get sum of tax amount and ofcourse mutiply it in CountOfVehtimeicles that has same start & end time
-                    totalTaxOfDate += (taxRules.Sum(x => x.TaxAmount) * TimesAndCountOfVehicle.CountOfVehicles);
+                    totalTaxOfDateRange += (taxRules.Sum(x => x.TaxAmount) * TimesAndCountOfVehicle.CountOfVehicles);
                     // to save less Repetitious fields in database i did not add MonetaryUnit to Base Rule db
                     // so I handle it in code => i use this variable when creating new calculatedTax
                     monetaryUnit = taxRules[0].MonetaryUnit;
@@ -119,7 +133,7 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
             // > use commitasync to order ef to add the entity to database > return calculated amount of tax of day to user 
             CalculatedTax calculatedTax = new()
             {
-                AmountOfDay = totalTaxOfDate,
+                AmountOfDay = totalTaxOfDateRange,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 City = baseRules[0].City,
