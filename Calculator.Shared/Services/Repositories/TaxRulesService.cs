@@ -35,15 +35,6 @@ public class TaxRulesService : Repository<TaxRule>, ITaxRulesService
             throw new NullReferenceException($"there is not any tax rule for this Id: {id}");
     }
 
-    public async Task<List<TaxRule>> GetTaxRulesByIdsAsync(IEnumerable<int> ids)
-    {
-        // Filter by ids
-        if (ids?.Any() == true)
-            return await _queryable.Where(x => ids.Contains(x.Id)).ToListAsync();
-
-        return [];
-    }
-
     public async Task<List<TaxRule>> GetTaxRulesByFilterAsync(DefaultPaginationFilter filter)
     {
         return await _queryable.AsNoTracking()

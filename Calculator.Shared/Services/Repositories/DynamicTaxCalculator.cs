@@ -46,7 +46,6 @@ public class DynamicTaxCalculator : Repository<CalculatedTax>, IDynamicTaxCalcul
            throw new NullReferenceException($"there is not any calculated tax for this date: {date}");
     }
 
-
     public bool IsItTollFreeDay(DateTime date)
     {
         int year = date.Year;
@@ -115,7 +114,6 @@ public class DynamicTaxCalculator : Repository<CalculatedTax>, IDynamicTaxCalcul
         }
         return Math.Max(totalFee, maxFeeWithin60Minutes);
     }
-
 
     public async Task<decimal> GetTollFeeForDateTimeAsync(DateTime date, VehicleType vehicle)
     {

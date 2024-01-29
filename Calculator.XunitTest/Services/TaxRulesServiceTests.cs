@@ -4,12 +4,12 @@ using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 namespace Calculator.XunitTest.Services;
-public class DynamicTaxRulesServiceTests
+public class TaxRulesServiceTests
 {
     private readonly DbContextOptions<AppDbContext> _options;
     private readonly AppDbContext _context;
     private readonly TaxRulesService _service;
-    public DynamicTaxRulesServiceTests()
+    public TaxRulesServiceTests()
     {
         _options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(databaseName: "MyTestDb")
@@ -17,6 +17,7 @@ public class DynamicTaxRulesServiceTests
         _context = new AppDbContext(_options);
         _service = new TaxRulesService(_context);
     }
+
 
     [Fact]
     public async Task GetTaxRulesAsync_ShouldReturnAllTaxRules()
@@ -26,7 +27,6 @@ public class DynamicTaxRulesServiceTests
         [
             new()
             {
-                //Id = 1,
                 StartTime = new TimeOnly(6, 0, 0),
                 EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
@@ -38,7 +38,6 @@ public class DynamicTaxRulesServiceTests
             },
             new()
             {
-                //Id = 2,
                 StartTime = new TimeOnly(6, 0, 0),
                 EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
@@ -50,7 +49,6 @@ public class DynamicTaxRulesServiceTests
             },
             new()
             {
-                //Id = 3,
                 StartTime = new TimeOnly(6, 0, 0),
                 EndTime = new TimeOnly(6, 29, 0),
                 TaxAmount = 8,
@@ -73,7 +71,7 @@ public class DynamicTaxRulesServiceTests
     }
 
     [Fact]
-    public async Task GetTaxRuleForDateAsync_ShouldReturnTaxRuleForSpecificDate()
+    public async Task GetTaxRuleForTimeAsync_ShouldReturnTaxRuleForSpecificTime()
     {
         // Arrange
         TaxRule taxRule = new()
