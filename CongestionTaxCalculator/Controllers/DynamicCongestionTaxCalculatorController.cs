@@ -147,7 +147,7 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
                     UpdatedAt = DateTime.Now,
                     City = baseRules[0].City,
                     Country = baseRules[0].Country,
-                    Date = request.FromDate.AddDays(1),
+                    Date = request.FromDate.AddDays(day),
                     MonetaryUnit = monetaryUnit
                 };
                 listOfAllCalCulatedTaxForDateRange.Add(calculatedTax);
