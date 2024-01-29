@@ -7,8 +7,10 @@ public interface ITaxRulesService : IRepository<TaxRule>
 {
     #region async methods
     Task<TaxRule> GetTaxRuleByIdAsync(int id);
+    Task<List<TaxRule>> GetTaxRulesByIdsAsync(IEnumerable<int> ids);
     Task<List<TaxRule>> GetTaxRulesByFilterAsync(DefaultPaginationFilter filter);
     Task<List<TaxRule>> GetTaxRulesAsync();
     Task<TaxRule> GetTaxRuleForTimeAsync(TimeOnly time);
+
     #endregion
 }

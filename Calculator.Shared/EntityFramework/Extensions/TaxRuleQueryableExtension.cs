@@ -37,13 +37,21 @@ public static class TaxRuleQueryableExtension
             || x.City.Equals(filter.Keyword, StringComparison.CurrentCultureIgnoreCase)
             || x.Country.Equals(filter.Keyword, StringComparison.CurrentCultureIgnoreCase));
 
-        // Filter By Start Date Time 
+        // Filter By Start  Time 
         if (filter.StartTime != null)
             query = query.Where(x => x.StartTime >= filter.StartTime);
 
-        // Filter By End Date Time 
+        // Filter By End  Time 
         if (filter.StartTime != null)
             query = query.Where(x => x.EndTime <= filter.EndTime);
+
+        // Filter By Start  Time 
+        if (filter.StartTime != null)
+            query = query.Where(x => x.StartTime == filter.StartTime);
+
+        // Filter By End  Time 
+        if (filter.StartTime != null)
+            query = query.Where(x => x.EndTime == filter.EndTime);
 
         return query;
     }

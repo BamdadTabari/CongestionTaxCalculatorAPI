@@ -10,6 +10,7 @@ public class BaseRule : BaseEntity<int>
     public DateTime? HolydayDateTime { get; set; }
     public string Country { get; set; }
     public string City { get; set; }
+    // this property is the actual reason of this entity
     public bool HaveNotTax { get; set; }
 
 }

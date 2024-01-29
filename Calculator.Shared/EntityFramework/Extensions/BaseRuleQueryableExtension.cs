@@ -1,12 +1,6 @@
 ﻿using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Shared.EntityFramework.Extensions;
 public static class BaseRuleQueryableExtension
@@ -40,7 +34,7 @@ public static class BaseRuleQueryableExtension
 
         // Filter By Keyword
         if (!string.IsNullOrEmpty(filter.Keyword))
-            query = query.Where(x=> x.City.Equals(filter.Keyword, StringComparison.CurrentCultureIgnoreCase)
+            query = query.Where(x => x.City.Equals(filter.Keyword, StringComparison.CurrentCultureIgnoreCase)
             || x.Country.Equals(filter.Keyword, StringComparison.CurrentCultureIgnoreCase));
 
         return query;

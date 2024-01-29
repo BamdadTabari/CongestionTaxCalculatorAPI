@@ -5,11 +5,6 @@ using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.BaseAndConfigs;
 using Calculator.Shared.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Shared.Services.Repositories;
 public class BaseRuleService : Repository<BaseRule>, IBaseRuleService
@@ -40,5 +35,19 @@ public class BaseRuleService : Repository<BaseRule>, IBaseRuleService
            .ApplySort(filter.SortByEnum)
            .Paginate(filter.Page, filter.PageSize)
            .ToListAsync();
+    }
+    public async Task<List<BaseRule>> GetBaseRulesWithTaxesByIdsAsync(IEnumerable<int> ids)
+    {
+        // Filter by ids
+        if (ids?.Any() == true)
+            return await _queryable.Where(x => ids.Contains(x.Id) && !x.HaveNotTax).ToListAsync();
+
+        return [];
+    }
+    public async Task<List<BaseRule>> GetBaseRulesByContryAndCityAsync(string contry, string city)
+    {
+        return await _queryable.AsNoTracking()
+            .Where(x => x.City.Equals(city, StringComparison.CurrentCultureIgnoreCase)
+            && x.Country.Equals(contry, StringComparison.CurrentCultureIgnoreCase)).ToListAsync();
     }
 }

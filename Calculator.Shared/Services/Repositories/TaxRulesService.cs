@@ -25,19 +25,27 @@ public class TaxRulesService : Repository<TaxRule>, ITaxRulesService
     {
         return await _queryable
             .SingleOrDefaultAsync(tr => tr.StartTime <= time && tr.EndTime >= time) ??
-            throw new NullReferenceException($"there is not any tax for this date: {time}");
+            throw new NullReferenceException($"there is not any tax rule for this date: {time}");
     }
 
     public async Task<TaxRule> GetTaxRuleByIdAsync(int id)
     {
         return await _queryable
         .SingleOrDefaultAsync(x => x.Id == id) ??
-            throw new NullReferenceException($"there is not any tax for this Id: {id}");
+            throw new NullReferenceException($"there is not any tax rule for this Id: {id}");
+    }
+
+    public async Task<List<TaxRule>> GetTaxRulesByIdsAsync(IEnumerable<int> ids)
+    {
+        // Filter by ids
+        if (ids?.Any() == true)
+            return await _queryable.Where(x => ids.Contains(x.Id)).ToListAsync();
+
+        return [];
     }
 
     public async Task<List<TaxRule>> GetTaxRulesByFilterAsync(DefaultPaginationFilter filter)
     {
-
         return await _queryable.AsNoTracking()
             .ApplyFilter(filter)
             .ApplySort(filter.SortByEnum)

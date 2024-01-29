@@ -17,7 +17,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(AppDbContext context)
     {
         _context = context;
-        
+
         TaxRules = new TaxRulesService(_context);
         BaseRules = new BaseRuleService(_context);
         StaticTaxCalculator = new StaticTaxCalculatorService();

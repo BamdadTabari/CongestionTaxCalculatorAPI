@@ -3,9 +3,7 @@ using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Infrastructure.Routes;
 using Calculator.Shared.Models.DataTransferObjects;
-using Calculator.Shared.Models.RequestModels;
 using Calculator.Shared.Services.BaseAndConfigs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Controllers;

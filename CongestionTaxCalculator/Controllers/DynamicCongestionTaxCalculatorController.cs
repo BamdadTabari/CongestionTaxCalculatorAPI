@@ -15,17 +15,58 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
 
+    #region Calculations
     [HttpGet]
-    [Route("get-calculated-tax-of-date-by-request")]
+    [Route("get-calculated-tax-of-date-by-tax-rules-ids-and-date-request")]
     public async Task<IActionResult> GetCalculatedTaxByRequestAsync([FromBody] CalculateByTaxRulesIdsAndDateRequest request)
     {
         try
         {
+            // write empty variables to fill them in process
+            decimal totalTaxOfDate = 0;
+            string monetaryUnit = string.Empty;
 
-            //TaxRule taxRule = await _unitOfWork.TaxRules.GetTaxRuleByIdAsync(id);
-            //CalculatedTax CalculatedTax = await _unitOfWork.DynamicTaxCalculator.GetCalculatedTaxByIdAsync(id);
-            //CalculatedTaxDto CalculatedTaxDto = _mapper.Map<CalculatedTaxDto>(CalculatedTax);
-            return Ok();
+            // first get all base rules that let tax be consider in calcualation
+            List<BaseRule> baseRules = await _unitOfWork.BaseRules.GetBaseRulesWithTaxesByIdsAsync(request.BaseRuleIds);
+            // loop throgh rules that we got from database
+            foreach (var baseRule in baseRules)
+            {
+                // loop throgh Times And CountOfVehicles that defined in request 
+                foreach (var TimesAndCountOfVehicle in request.TimesAndCountOfVehicles)
+                {
+                    // get tax rules with help of DefaultPaginationFilter
+                    // this filters are not just defined for paging we can use them more, ofcurse with a good written service method 
+                    List<TaxRule> taxRules = await _unitOfWork.TaxRules
+                    .GetTaxRulesByFilterAsync(new DefaultPaginationFilter
+                    {
+                        CityName = baseRule.City,
+                        CountryName = baseRule.Country,
+                        StartTime = TimesAndCountOfVehicle.FromTime,
+                        EndTime = TimesAndCountOfVehicle.ToTime
+                    });
+                    // simply get sum of tax amount and ofcourse mutiply it in CountOfVehtimeicles that has same start & end time
+                    totalTaxOfDate += (taxRules.Sum(x => x.TaxAmount) * TimesAndCountOfVehicle.CountOfVehicles);
+                    // to save less Repetitious fields in database i did not add MonetaryUnit to Base Rule db
+                    // so I handle it in code => i use this variable when creating new calculatedTax
+                    monetaryUnit = taxRules[0].MonetaryUnit;
+                }
+            }
+            // from here I think everything is clear => new instance > add to ef memory
+            // > use commitasync to order ef to add the entity to database > return calculated amount of tax of day to user 
+            CalculatedTax calculatedTax = new()
+            {
+                AmountOfDay = totalTaxOfDate,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                City = baseRules[0].City,
+                Country = baseRules[0].Country,
+                Date = request.Date,
+                MonetaryUnit = monetaryUnit
+            };
+            _unitOfWork.DynamicTaxCalculator.Add(calculatedTax);
+            await _unitOfWork.CommitAsync();
+
+            return Ok(calculatedTax);
         }
         catch (Exception exception)
         {
@@ -38,6 +79,71 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
 #endif
         }
     }
+
+    [HttpGet]
+    [Route("get-calculated-tax-of-date-range-by-tax-rules-ids-and-date-range-request")]
+    public async Task<IActionResult> GetCalculatedTaxByRequestForTheRangeOfDateAsync([FromBody] CalculateByTaxRulesIdsAndDateRequest request)
+    {
+        try
+        {
+            // write empty variables to fill them in process
+            decimal totalTaxOfDate = 0;
+            string monetaryUnit = string.Empty;
+
+            // first get all base rules that let tax be consider in calcualation
+            List<BaseRule> baseRules = await _unitOfWork.BaseRules.GetBaseRulesWithTaxesByIdsAsync(request.BaseRuleIds);
+            // loop throgh rules that we got from database
+            foreach (var baseRule in baseRules)
+            {
+                // loop throgh Times And CountOfVehicles that defined in request 
+                foreach (var TimesAndCountOfVehicle in request.TimesAndCountOfVehicles)
+                {
+                    // get tax rules with help of DefaultPaginationFilter
+                    // this filters are not just defined for paging we can use them more, ofcurse with a good written service method 
+                    List<TaxRule> taxRules = await _unitOfWork.TaxRules
+                    .GetTaxRulesByFilterAsync(new DefaultPaginationFilter
+                    {
+                        CityName = baseRule.City,
+                        CountryName = baseRule.Country,
+                        StartTime = TimesAndCountOfVehicle.FromTime,
+                        EndTime = TimesAndCountOfVehicle.ToTime
+                    });
+                    // simply get sum of tax amount and ofcourse mutiply it in CountOfVehtimeicles that has same start & end time
+                    totalTaxOfDate += (taxRules.Sum(x => x.TaxAmount) * TimesAndCountOfVehicle.CountOfVehicles);
+                    // to save less Repetitious fields in database i did not add MonetaryUnit to Base Rule db
+                    // so I handle it in code => i use this variable when creating new calculatedTax
+                    monetaryUnit = taxRules[0].MonetaryUnit;
+                }
+            }
+            // from here I think everything is clear => new instance > add to ef memory
+            // > use commitasync to order ef to add the entity to database > return calculated amount of tax of day to user 
+            CalculatedTax calculatedTax = new()
+            {
+                AmountOfDay = totalTaxOfDate,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                City = baseRules[0].City,
+                Country = baseRules[0].Country,
+                Date = request.Date,
+                MonetaryUnit = monetaryUnit
+            };
+            _unitOfWork.DynamicTaxCalculator.Add(calculatedTax);
+            await _unitOfWork.CommitAsync();
+
+            return Ok(calculatedTax);
+        }
+        catch (Exception exception)
+        {
+            // for my junior colleague: here I Used preprocessor directives 
+            //to conditionally compile code based on the configuration (Debug or Release).
+#if DEBUG
+            throw new Exception(exception.Message, exception.InnerException);
+#else
+            return BadRequest("An error occurred.please try again later");
+#endif
+        }
+    }
+    #endregion
 
 
     #region This Part is more for editors job / add/update/delete/get/ and more
