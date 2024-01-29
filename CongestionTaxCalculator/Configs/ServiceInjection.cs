@@ -1,6 +1,7 @@
 ﻿using Calculator.Shared.EntityFramework.Configs;
 using Calculator.Shared.Models.AutoMapperProfiles;
 using Calculator.Shared.Services.BaseAndConfigs;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ public static class ServiceInjection
         services.AddAutoMapper(typeof(TaxRulesAutoMapperProfiles));
 
         services.AddControllers();
+        services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         services.AddEndpointsApiExplorer();
 

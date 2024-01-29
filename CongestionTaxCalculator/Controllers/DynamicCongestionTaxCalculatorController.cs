@@ -23,11 +23,6 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
     {
         try
         {
-            // validate main data
-            if (request.BaseRuleIds is null || request.BaseRuleIds.Count == 0 ||
-               request.TimesAndCountOfVehicles is null || request.TimesAndCountOfVehicles.Count is 0)
-                return BadRequest("wrong data, please check your request data");
-
             // write empty variables to fill them in process
             decimal totalTaxOfDate = 0;
             string monetaryUnit = string.Empty;
@@ -40,10 +35,6 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
                 // loop throgh Times And CountOfVehicles that defined in request 
                 foreach (var TimesAndCountOfVehicle in request.TimesAndCountOfVehicles)
                 {
-                    // validate detail data
-                    if (TimesAndCountOfVehicle.FromTime >= TimesAndCountOfVehicle.ToTime || TimesAndCountOfVehicle.CountOfVehicles is 0)
-                        return BadRequest("wrong data, please check your request data");
-
                     // get tax rules with help of DefaultPaginationFilter
                     // this filters are not just defined for paging we can use them more, ofcurse with a good written service method 
                     List<TaxRule> taxRules = await _unitOfWork.TaxRules
@@ -96,10 +87,6 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
     {
         try
         {
-            if (request.FromDate >= request.ToDate || request.BaseRuleIds is null || request.BaseRuleIds.Count == 0 ||
-                request.TimesAndCountOfVehicles is null || request.TimesAndCountOfVehicles.Count == 0)
-                return BadRequest("wrong data");
-
             // write empty variables to fill them in process
             decimal totalTaxOfDateRange = 0;
             string monetaryUnit = string.Empty;
@@ -138,7 +125,7 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
                 UpdatedAt = DateTime.Now,
                 City = baseRules[0].City,
                 Country = baseRules[0].Country,
-                Date = request.Date,
+                //Date = request.Date,
                 MonetaryUnit = monetaryUnit
             };
             _unitOfWork.DynamicTaxCalculator.Add(calculatedTax);
