@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator", "CongestionTaxCalculator\CongestionTaxCalculator.csproj", "{494B92B8-39EF-45D9-9415-240ADFE30027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator", "CongestionTaxCalculator\CongestionTaxCalculator.csproj", "{494B92B8-39EF-45D9-9415-240ADFE30027}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Shared", "Calculator.Shared\Calculator.Shared.csproj", "{3269FD8E-EBCE-49E9-8926-FAF97D01AD70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.Shared", "Calculator.Shared\Calculator.Shared.csproj", "{3269FD8E-EBCE-49E9-8926-FAF97D01AD70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.XunitTest", "Calculator.XunitTest\Calculator.XunitTest.csproj", "{2E664413-7A28-4935-A6F9-B69D70C4F9E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.XunitTest", "Calculator.XunitTest\Calculator.XunitTest.csproj", "{2E664413-7A28-4935-A6F9-B69D70C4F9E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

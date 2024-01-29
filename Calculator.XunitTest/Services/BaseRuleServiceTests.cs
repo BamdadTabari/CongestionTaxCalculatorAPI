@@ -4,13 +4,6 @@ using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.XunitTest.Services;
 // ok here I Sayed let have new experience in unit tests so Run Just This Class
@@ -118,7 +111,7 @@ public class BaseRuleServiceTests
         _service.AddRange(baseRules);
         _context.SaveChanges();
 
-        BaseRulePaginationFilter filter = new() { Page = 1, PageSize = 1 , City = "L.A"};
+        BaseRulePaginationFilter filter = new() { Page = 1, PageSize = 1, City = "L.A" };
 
         // Act
         List<BaseRule> result = await _service.GetBaseRulesByFilterAsync(filter);
@@ -156,7 +149,7 @@ public class BaseRuleServiceTests
         _service.AddRange(baseRules);
         _context.SaveChanges();
 
-        IEnumerable<int> ids = new List<int> { 32,22 };
+        IEnumerable<int> ids = new List<int> { 32, 22 };
 
         // Act
         List<BaseRule> result = await _service.GetBaseRulesWithTaxesByIdsAsync(ids);
