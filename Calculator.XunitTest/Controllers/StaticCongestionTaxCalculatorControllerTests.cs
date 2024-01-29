@@ -27,17 +27,17 @@ public class StaticCongestionTaxCalculatorControllerTests
     public async Task GetCalculatedTaxForSpesificDatesTest_ReturnsOkResultWithCorrectTax()
     {
         // Arrange
-        var request = new CalculateByDatesAndVehicleRequest(VehicleType.Car, [ DateTime.Now ]);
-        var expectedTax = 50m;
+        CalculateByDatesAndVehicleRequest request = new(VehicleType.Car, [ DateTime.Now ]);
+        decimal expectedTax = 50m;
         _mockUnitOfWork.Setup(uow => uow.DynamicTaxCalculator.CalculateTotalFeeForDateTimesAsync(It.IsAny<VehicleType>(), It.IsAny<DateTime[]>(), It.IsAny<DateTime>()))
             .ReturnsAsync(expectedTax);
 
         // Act
-        var result = await _controller.GetCalculatedTaxForSpesificDates(request);
+        IActionResult result = await _controller.GetCalculatedTaxForSpesificDates(request);
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        var returnedTax = Assert.IsType<decimal>(okResult.Value);
+        OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+        decimal returnedTax = Assert.IsType<decimal>(okResult.Value);
         Assert.Equal(expectedTax, returnedTax);
     }
 
@@ -45,17 +45,17 @@ public class StaticCongestionTaxCalculatorControllerTests
     public async Task GetGothenburgCalculatedTaxForSpesificDateTest_ReturnsOkResultWithCorrectTax()
     {
         // Arrange
-        var request = new CalculateByDateAndVehicleRequest(VehicleType.Car, DateTime.Now);
-        var expectedTax = 50m;
+        CalculateByDateAndVehicleRequest request = new (VehicleType.Car, DateTime.Now);
+        decimal expectedTax = 50m;
         _mockUnitOfWork.Setup(uow => uow.DynamicTaxCalculator.GetTollFeeForDateTimeAsync(It.IsAny<DateTime>(), It.IsAny<VehicleType>()))
             .ReturnsAsync(expectedTax);
 
         // Act
-        var result = await _controller.GetGothenburgCalculatedTaxForSpesificDate(request);
+        IActionResult result = await _controller.GetGothenburgCalculatedTaxForSpesificDate(request);
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        var returnedTax = Assert.IsType<CalculatedTax>(okResult.Value);
+        OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+        CalculatedTax returnedTax = Assert.IsType<CalculatedTax>(okResult.Value);
         Assert.Equal(expectedTax, returnedTax.AmountOfDay);
     }
 
@@ -63,18 +63,18 @@ public class StaticCongestionTaxCalculatorControllerTests
     public void GetTaxForGothenburgTest_ReturnsOkResultWithCorrectTax()
     {
         // Arrange
-        var vehicle = VehicleType.Car;
-        var dates = new[] { DateTime.Now };
-        var expectedTax = 50;
+        VehicleType vehicle = VehicleType.Car;
+        DateTime[] dates = [DateTime.Now];
+        int expectedTax = 50;
         _mockUnitOfWork.Setup(uow => uow.StaticTaxCalculator.GetTollFee(It.IsAny<DateTime>(), It.IsAny<VehicleType>()))
             .Returns(expectedTax);
 
         // Act
-        var result = _controller.GetTaxForGothenburg(vehicle, dates);
+        IActionResult result = _controller.GetTaxForGothenburg(vehicle, dates);
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        var returnedTax = Assert.IsType<int>(okResult.Value);
+        OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+        int returnedTax = Assert.IsType<int>(okResult.Value);
         Assert.Equal(expectedTax, returnedTax);
     }
 }
