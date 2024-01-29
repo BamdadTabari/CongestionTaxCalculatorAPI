@@ -4,256 +4,201 @@ using Calculator.Shared.Enums;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Calculator.XunitTest.Services;
+// ok here I Sayed let have new experience in unit tests so Run Just This Class
+// And see The code And Think About it Why All test some times passed and some times failed :D
 public class BaseRuleServiceTests
 {
-        private Mock<AppDbContext> _mockContext;
-        private Mock<DbSet<BaseRule>> _mockSet;
-        private BaseRuleService _service;
+    private readonly DbContextOptions<AppDbContext> _options;
+    private readonly AppDbContext _context;
+    private readonly BaseRuleService _service;
 
-        public BaseRuleServiceTests()
-        {
-            _mockSet = new Mock<DbSet<BaseRule>>();
-            _mockContext = new Mock<AppDbContext>();
-            _mockContext.Setup(m => m.Set<BaseRule>()).Returns(_mockSet.Object);
-            _service = new BaseRuleService(_mockContext.Object);
-        }
-
-        [Fact]
-        public async Task GetBaseRuleByIdAsync_ShouldReturnBaseRule_WhenExists()
-        {
-            // Arrange
-            var expected = new BaseRule { Id = 1 };
-            _mockSet.Setup(m => m.SingleOrDefaultAsync(It.IsAny<Expression<Func<BaseRule, bool>>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(expected);
-
-            // Act
-            var result = await _service.GetBaseRuleByIdAsync(1);
-
-            // Assert
-            Assert.Equal(expected, result);
-        }
-
-        [Fact]
-        public async Task GetBaseRuleByIdAsync_ShouldThrowException_WhenNotExists()
-        {
-            // Arrange
-            _mockSet.Setup(m => m.SingleOrDefaultAsync(It.IsAny<Expression<Func<BaseRule, bool>>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((BaseRule)null);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<NullReferenceException>(() => _service.GetBaseRuleByIdAsync(1));
-        }
-
-        [Fact]
-        public async Task GetBaseRulesAsync_ShouldReturnAllBaseRules()
-        {
-            // Arrange
-            var expected = new List<BaseRule> { new BaseRule(), new BaseRule() };
-            _mockSet.Setup(m => m.AsNoTracking()).Returns(expected.AsQueryable());
-
-            // Act
-            var result = await _service.GetBaseRulesAsync();
-
-            // Assert
-            Assert.Equal(expected, result);
-        }
-
-        // Similar tests can be written for other methods...
+    public BaseRuleServiceTests()
+    {
+        _options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase(databaseName: "MyTestDb")
+            .Options;
+        _context = new AppDbContext(_options);
+        _service = new BaseRuleService(_context);
     }
 
-    //private readonly DbContextOptions<AppDbContext> _options;
-    //private readonly AppDbContext _context;
-    //private readonly BaseRuleService _service;
-    //public BaseRuleServiceTests()
-    //{
-    //    _options = new DbContextOptionsBuilder<AppDbContext>()
-    //        .UseInMemoryDatabase(databaseName: "MyTestDb")
-    //        .Options;
-    //    _context = new AppDbContext(_options);
-    //    _service = new BaseRuleService(_context);
-    //}
+    [Fact]
+    public async Task GetBaseRuleByIdAsync_ShouldReturnBaseRule_WhenExists()
+    {
+        // Arrange
+        BaseRule baseRule = new()
+        {
+            Id = 666,
+            HaveNotTax = false,
+            Country = "USA",
+            City = "New York",
+            Vehicle = VehicleType.Motorbike,
+            DayOfWeek = DayOfWeek.Sunday,
+            HolydayDateTime = null
+        };
+        _service.Add(baseRule);
+        _context.SaveChanges();
+
+        // Act
+        BaseRule result = await _service.GetBaseRuleByIdAsync(666);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(666, result.Id);
+    }
+
+    [Fact]
+    public async Task GetBaseRulesAsync_ShouldReturnAllBaseRules()
+    {
+        // Arrange
+        List<BaseRule> baseRules = [
+             new()
+             {
+                 HaveNotTax = false,
+                 Country = "USA",
+                 City = "New York",
+                 Vehicle = VehicleType.Motorbike,
+                 DayOfWeek = DayOfWeek.Sunday,
+                 HolydayDateTime = null
+             },
+            new()
+            {
+                HaveNotTax = true,
+                Country = "USA",
+                City = "L.A",
+                Vehicle = VehicleType.Bus,
+                DayOfWeek = DayOfWeek.Saturday,
+                HolydayDateTime = null
+            },
+        ];
 
 
-    //[Fact]
-    //public async Task GetBaseRulesAsync_ShouldReturnAllBaseRules()
-    //{
-    //    // Arrange
-    //    List<BaseRule> BaseRules =
-    //    [
-    //        new()
-    //        {
-    //            StartTime = new TimeOnly(6, 0, 0),
-    //            EndTime = new TimeOnly(6, 29, 0),
-    //            TaxAmount = 8,
-    //            City = "Gothenburg",
-    //            Country = "Sweden",
-    //            MonetaryUnit = "SEK",
-    //            CreatedAt = DateTime.Now,
-    //            UpdatedAt = DateTime.Now,
-    //        },
-    //        new()
-    //        {
-    //            StartTime = new TimeOnly(6, 0, 0),
-    //            EndTime = new TimeOnly(6, 29, 0),
-    //            TaxAmount = 8,
-    //            City = "Gothenburg",
-    //            Country = "Sweden",
-    //            MonetaryUnit = "SEK",
-    //            CreatedAt = DateTime.Now,
-    //            UpdatedAt = DateTime.Now,
-    //        },
-    //        new()
-    //        {
-    //            StartTime = new TimeOnly(6, 0, 0),
-    //            EndTime = new TimeOnly(6, 29, 0),
-    //            TaxAmount = 8,
-    //            City = "Gothenburg",
-    //            Country = "Sweden",
-    //            MonetaryUnit = "SEK",
-    //            CreatedAt = DateTime.Now,
-    //            UpdatedAt = DateTime.Now,
-    //        }
-    //    ];
+        _service.AddRange(baseRules);
+        _context.SaveChanges();
 
-    //    _service.AddRange(BaseRules);
-    //    _context.SaveChanges();
+        // Act
+        List<BaseRule> result = await _service.GetBaseRulesAsync();
 
-    //    // Act
-    //    List<BaseRule> result = await _service.GetBaseRulesAsync();
+        // Assert
+        Assert.Equal(7, result.Count);
+    }
 
-    //    // Assert
-    //    Assert.Equal(3, result.Count);
-    //}
+    [Fact]
+    public async Task GetBaseRulesByFilterAsync_ShouldReturnFilteredBaseRules()
+    {
+        // Arrange
+        List<BaseRule> baseRules = [
+             new()
+             {
+                 HaveNotTax = false,
+                 Country = "USA",
+                 City = "New York",
+                 Vehicle = VehicleType.Motorbike,
+                 DayOfWeek = DayOfWeek.Sunday,
+                 HolydayDateTime = null
+             },
+            new()
+            {
+                HaveNotTax = false,
+                Country = "USA",
+                City = "L.A",
+                Vehicle = VehicleType.Bus,
+                DayOfWeek = DayOfWeek.Saturday,
+                HolydayDateTime = null
+            },
+        ];
+        _service.AddRange(baseRules);
+        _context.SaveChanges();
 
-    //[Fact]
-    //public async Task GetBaseRulesWithTaxesByIdsAsync_ShouldReturnBaseRuleForSpecificTime()
-    //{
-    //    // Arrange
-    //    List<BaseRule> baseRules =
-    //     [
-    //         new()
-    //         {
-    //             Id = 13,
-    //             Vehicle = VehicleType.Car,
-    //             HolydayDateTime = null,
-    //             DayOfWeek = null,
-    //             HaveNotTax = false,
-    //             City = "Gothenburg",
-    //             Country = "Sweden",
-    //             CreatedAt = DateTime.Now,
-    //             UpdatedAt = DateTime.Now,
-    //         },
-    //         new()
-    //         {
-    //             Id = 130,
-    //             Vehicle = VehicleType.Car,
-    //             HolydayDateTime = new(2022, 12, 22),
-    //             DayOfWeek = DayOfWeek.Tuesday,
-    //             HaveNotTax = false,
-    //             City = "Iran",
-    //             Country = "Tehran",
-    //             CreatedAt = DateTime.Now,
-    //             UpdatedAt = DateTime.Now,
-    //         }
-    //     ];
-    //    _service.AddRange(baseRules);
-    //    _context.SaveChanges();
+        BaseRulePaginationFilter filter = new() { Page = 1, PageSize = 1 , City = "L.A"};
 
-    //    IEnumerable<int> ids = new List<int>() {13,130};
-    //    // Act
-    //    List<BaseRule> result = await _service.GetBaseRulesWithTaxesByIdsAsync(ids);
+        // Act
+        List<BaseRule> result = await _service.GetBaseRulesByFilterAsync(filter);
 
-    //    // Assert
-    //    Assert.NotNull(result);
-    //    //Assert.Equal(8, result.TaxAmount);
-    //}
+        // Assert
+        Assert.Single(result);
+    }
 
-    //[Fact]
-    //public async Task GetBaseRuleByIdAsync_ShouldReturnBaseRuleForSpecificId()
-    //{
-    //    // Arrange
-    //    BaseRule baseRule = new()
-    //    {
-    //        Id = 101011,
-    //        Vehicle = VehicleType.Bus,
-    //        HolydayDateTime = null,
-    //        DayOfWeek = DayOfWeek.Monday,
-    //        HaveNotTax = true,
-    //        City = "Gothenburg",
-    //        Country = "Sweden",
-    //        CreatedAt = DateTime.Now,
-    //        UpdatedAt = DateTime.Now,
-    //    };
-    //    _service.Add(baseRule);
-    //    _context.SaveChanges();
+    [Fact]
+    public async Task GetBaseRulesWithTaxesByIdsAsync_ShouldReturnBaseRulesWithTaxes()
+    {
+        // Arrange
+        List<BaseRule> baseRules = [
+             new()
+             {
+                 Id = 22,
+                 HaveNotTax = false,
+                 Country = "USA",
+                 City = "New York",
+                 Vehicle = VehicleType.Motorbike,
+                 DayOfWeek = DayOfWeek.Sunday,
+                 HolydayDateTime = null
+             },
+            new()
+            {
+                Id = 32,
+                HaveNotTax = false,
+                Country = "USA",
+                City = "L.A",
+                Vehicle = VehicleType.Bus,
+                DayOfWeek = DayOfWeek.Saturday,
+                HolydayDateTime = null
+            },
+        ];
+        _service.AddRange(baseRules);
+        _context.SaveChanges();
 
-    //    // Act
-    //    BaseRule result = await _service.GetBaseRuleByIdAsync(1);
+        IEnumerable<int> ids = new List<int> { 32,22 };
 
-    //    // Assert
-    //    Assert.NotNull(result);
-    //    Assert.Equal(baseRule, result);
-    //}
+        // Act
+        List<BaseRule> result = await _service.GetBaseRulesWithTaxesByIdsAsync(ids);
 
-    //[Fact]
-    //public async Task GetBaseRulesByFilterAsync_ShouldReturnBaseRulesBasedOnFilter()
-    //{
-    //    // Arrange
-    //    List<BaseRule> BaseRules =
-    //    [
-    //        new()
-    //        { 
-    //            Vehicle = VehicleType.Bus,
-    //            HolydayDateTime = null,
-    //            DayOfWeek = DayOfWeek.Monday,
-    //            HaveNotTax = true,
-    //            City = "Gothenburg",
-    //            Country = "Sweden",
-    //            CreatedAt = DateTime.Now,
-    //            UpdatedAt = DateTime.Now,
-    //        },
-    //        new()
-    //        { 
-    //            Vehicle = VehicleType.Car,
-    //            HolydayDateTime = new(2022,12,22),
-    //            DayOfWeek = DayOfWeek.Tuesday,
-    //            HaveNotTax = true,
-    //            City = "Iran",
-    //            Country = "Amol",
-    //            CreatedAt = DateTime.Now,
-    //            UpdatedAt = DateTime.Now,
-    //        },
-    //        new()
-    //        { 
-    //            Vehicle = VehicleType.Car,
-    //            HolydayDateTime = null,
-    //            DayOfWeek = null,
-    //            HaveNotTax = true,
-    //            City = "Gothenburg",
-    //            Country = "Sweden",
-    //            CreatedAt = DateTime.Now,
-    //            UpdatedAt = DateTime.Now,
-    //        }
-    //    ];
+        // Assert
+        Assert.Equal(22, result[0].Id);
+    }
 
-    //    _service.AddRange(BaseRules);
-    //    _context.SaveChanges();
+    [Fact]
+    public async Task GetBaseRulesByContryAndCityAsync_ShouldReturnBaseRulesByCountryAndCity()
+    {
+        // Arrange
+        List<BaseRule> baseRules = [
+             new()
+             {
+                 HaveNotTax = false,
+                 Country = "USA",
+                 City = "New York",
+                 Vehicle = VehicleType.Motorbike,
+                 DayOfWeek = DayOfWeek.Sunday,
+                 HolydayDateTime = null
+             },
+            new()
+            {
+                HaveNotTax = true,
+                Country = "USA",
+                City = "L.A",
+                Vehicle = VehicleType.Bus,
+                DayOfWeek = DayOfWeek.Saturday,
+                HolydayDateTime = null
+            },
+        ];
+        _service.AddRange(baseRules);
+        _context.SaveChanges();
 
-    //    BaseRulePaginationFilter filter = new() { 
-    //        City = "Amol"
-    //    };
+        // Act
+        List<BaseRule> result = await _service.GetBaseRulesByContryAndCityAsync("USA", "New York");
 
-    //    // Act
-    //    List<BaseRule> result = await _service.GetBaseRulesByFilterAsync(filter);
+        // Assert
+        Assert.NotNull(result);
+    }
 
-    //    // Assert
-    //    Assert.Single(result);
-    //}
+
 }
+
