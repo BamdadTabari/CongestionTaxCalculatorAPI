@@ -3,6 +3,7 @@ using Calculator.Shared.EntityFramework.Entities.TaxEntities;
 using Calculator.Shared.Infrastructure.Pagination;
 using Calculator.Shared.Infrastructure.Routes;
 using Calculator.Shared.Models.DataTransferObjects;
+using Calculator.Shared.Models.RequestModels;
 using Calculator.Shared.Services.BaseAndConfigs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,29 @@ public class DynamicCongestionTaxCalculatorController(IUnitOfWork unitOfWork, IM
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
 
+    [HttpGet]
+    [Route("get-calculated-tax-of-date-by-request")]
+    public async Task<IActionResult> GetCalculatedTaxByRequestAsync([FromBody] CalculateByTaxRulesIdsAndDateRequest request)
+    {
+        try
+        {
 
+            //TaxRule taxRule = await _unitOfWork.TaxRules.GetTaxRuleByIdAsync(id);
+            //CalculatedTax CalculatedTax = await _unitOfWork.DynamicTaxCalculator.GetCalculatedTaxByIdAsync(id);
+            //CalculatedTaxDto CalculatedTaxDto = _mapper.Map<CalculatedTaxDto>(CalculatedTax);
+            return Ok();
+        }
+        catch (Exception exception)
+        {
+            // for my junior colleague: here I Used preprocessor directives 
+            //to conditionally compile code based on the configuration (Debug or Release).
+#if DEBUG
+            throw new Exception(exception.Message, exception.InnerException);
+#else
+            return BadRequest("An error occurred.please try again later");
+#endif
+        }
+    }
 
 
     #region This Part is more for editors job / add/update/delete/get/ and more
