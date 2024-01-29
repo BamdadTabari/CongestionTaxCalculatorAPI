@@ -1,10 +1,18 @@
 ﻿using FluentValidation;
 
 namespace Calculator.Shared.Models.RequestModels;
-public record CalculateByTaxRulesIdsAndDateRequest(List<int> BaseRuleIds,
-                                                    DateTime Date,
-                                                    List<TimesAndCountofVehiclesAtThoseTime> TimesAndCountOfVehicles);
-public record TimesAndCountofVehiclesAtThoseTime(int CountOfVehicles, TimeOnly FromTime, TimeOnly ToTime);
+public class CalculateByTaxRulesIdsAndDateRequest()
+{
+    public List<int>? BaseRuleIds { get; set; }
+    public DateTime Date { get; set; }
+    public List<TimesAndCountofVehiclesAtThoseTime>? TimesAndCountOfVehicles { get; set; }
+}
+public class TimesAndCountofVehiclesAtThoseTime()
+{
+    public int CountOfVehicles { get; set; }
+    public TimeOnly FromTime { get; set; }
+    public TimeOnly ToTime { get; set; }
+}
 
 public class CalculateByTaxRulesIdsAndDateRequestValidator : AbstractValidator<CalculateByTaxRulesIdsAndDateRequest>
 {

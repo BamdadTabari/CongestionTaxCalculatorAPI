@@ -2,11 +2,13 @@
 
 namespace Calculator.Shared.Models.RequestModels;
 
-public record CalculateByTaxRulesIdsAndDateRangeRequest(List<int> BaseRuleIds,
-                                                    DateTime FromDate,
-                                                    DateTime ToDate,
-                                                    List<TimesAndCountofVehiclesAtThoseTime> TimesAndCountOfVehicles);
-
+public class CalculateByTaxRulesIdsAndDateRangeRequest()
+{
+    public List<int>? BaseRuleIds { get; set; }
+    public DateTime FromDate { get; set; }
+    public DateTime ToDate { get; set; }
+    public List<TimesAndCountofVehiclesAtThoseTime>? TimesAndCountOfVehicles { get; set; }
+}
 public class CalculateByTaxRulesIdsAndDateRangeRequestValidator : AbstractValidator<CalculateByTaxRulesIdsAndDateRangeRequest>
 {
     public CalculateByTaxRulesIdsAndDateRangeRequestValidator()
