@@ -18,7 +18,7 @@ public class TaxRulesService : Repository<TaxRule>, ITaxRulesService
 
     public async Task<List<TaxRule>> GetTaxRulesAsync()
     {
-        return await _queryable.ToListAsync();
+        return await _queryable.AsNoTracking().ToListAsync();
     }
 
     public async Task<TaxRule> GetTaxRuleForTimeAsync(TimeOnly time)

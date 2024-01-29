@@ -40,3 +40,16 @@ public record DefaultPaginationFilter : PaginationFilter
     public SortByEnum? SortByEnum { get; init; }
 }
 
+public record BaseRulePaginationFilter : PaginationFilter
+{
+    public BaseRulePaginationFilter(int pageNumber, int pageSize) : base(pageNumber, pageSize) { }
+    public BaseRulePaginationFilter() { }
+    public string? Keyword { get; set; }
+    public int? IntValue { get; set; }
+    public VehicleType? Vehicle { get; set; }
+    public DayOfWeek? DayOfWeek { get; set; }
+    public DateTime? HolydayDateTime { get; set; }
+    public string? Country { get; set; }
+    public string? City { get; set; }
+    public SortByEnum? SortByEnum { get; init; }
+}

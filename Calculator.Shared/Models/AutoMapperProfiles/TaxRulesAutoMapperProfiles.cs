@@ -8,6 +8,7 @@ public class TaxRulesAutoMapperProfiles : Profile
     public TaxRulesAutoMapperProfiles()
     {
         CreateMap<TaxRule, TaxRuleDto>().ReverseMap();
+        CreateMap<BaseRule, BaseRuleDto>().ReverseMap();
         CreateMap<CalculatedTax, CalculatedTaxDto>().ReverseMap();
     }
 }

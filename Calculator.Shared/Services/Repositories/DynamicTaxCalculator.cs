@@ -27,7 +27,7 @@ public class DynamicTaxCalculator : Repository<CalculatedTax>, IDynamicTaxCalcul
 
     public async Task<List<CalculatedTax>> GetCalculatedTaxesAsync()
     {
-        return await _queryable.ToListAsync();
+        return await _queryable.AsNoTracking().ToListAsync();
     }
 
     public async Task<List<CalculatedTax>> GetCalculatedTaxesByFilterAsync(DefaultPaginationFilter filter)
