@@ -6,11 +6,6 @@ using Calculator.Shared.Services.BaseAndConfigs;
 using CongestionTaxCalculator.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.XunitTest.Controllers;
 public class BaseRuleControllerTests
@@ -30,7 +25,7 @@ public class BaseRuleControllerTests
     public async Task GetBaseRuleByIdAsync_ReturnsOkResultWithCorrectBaseRule()
     {
         int id = 1;
-        BaseRule baseRule = new ();
+        BaseRule baseRule = new();
         _mockUnitOfWork.Setup(uow => uow.BaseRules.GetBaseRuleByIdAsync(id)).ReturnsAsync(baseRule);
 
         // Act
@@ -63,8 +58,8 @@ public class BaseRuleControllerTests
     public async Task CreateBaseRule_ReturnsOkResultWithCreatedBaseRule()
     {
         // Arrange
-        BaseRuleDto baseRuleDto = new ();
-        BaseRule baseRule = new ();
+        BaseRuleDto baseRuleDto = new();
+        BaseRule baseRule = new();
         _mockMapper.Setup(m => m.Map<BaseRule>(baseRuleDto)).Returns(baseRule);
         _mockUnitOfWork.Setup(uow => uow.BaseRules.AddAsync(baseRule)).Verifiable();
         _mockUnitOfWork.Setup(uow => uow.CommitAsync()).ReturnsAsync(true);
@@ -84,8 +79,8 @@ public class BaseRuleControllerTests
     {
         // Arrange
         int id = 1;
-        BaseRuleDto baseRuleDto = new ();
-        BaseRule baseRule = new ();
+        BaseRuleDto baseRuleDto = new();
+        BaseRule baseRule = new();
         _mockMapper.Setup(m => m.Map<BaseRule>(baseRuleDto)).Returns(baseRule);
         _mockUnitOfWork.Setup(uow => uow.BaseRules.ExistsAsync(id)).ReturnsAsync(true);
         _mockUnitOfWork.Setup(uow => uow.BaseRules.Update(baseRule)).Verifiable();
@@ -124,7 +119,7 @@ public class BaseRuleControllerTests
     public async Task GetTBaseRuleesByFilter_ReturnsOkResultWithCorrectBaseRules()
     {
         // Arrange
-        BaseRulePaginationFilter request = new ();
+        BaseRulePaginationFilter request = new();
         List<BaseRule> baseRules = [new BaseRule()];
         List<BaseRuleDto> baseRuleDtos = _mockMapper.Object.Map<List<BaseRuleDto>>(baseRules);
         _mockUnitOfWork.Setup(uow => uow.BaseRules.GetBaseRulesByFilterAsync(request)).ReturnsAsync(baseRules);

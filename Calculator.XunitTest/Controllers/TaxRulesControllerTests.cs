@@ -6,11 +6,6 @@ using Calculator.Shared.Services.BaseAndConfigs;
 using CongestionTaxCalculator.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.XunitTest.Controllers;
 public class TaxRulesControllerTests
@@ -31,9 +26,9 @@ public class TaxRulesControllerTests
     {
         // Arrange
         int id = 1;
-        TaxRule taxRule = new ();
+        TaxRule taxRule = new();
         _mockUnitOfWork.Setup(uow => uow.TaxRules.GetTaxRuleByIdAsync(id)).ReturnsAsync(taxRule);
-        TaxRuleDto taxRuleDto = new ();
+        TaxRuleDto taxRuleDto = new();
         _mockMapper.Setup(m => m.Map<TaxRuleDto>(taxRule)).Returns(taxRuleDto);
 
         // Act
@@ -71,8 +66,8 @@ public class TaxRulesControllerTests
     public async Task CreateTaxRuleTest_ReturnsOkResultWithCreatedTaxRule()
     {
         // Arrange
-        TaxRuleDto taxRuleDto = new ();
-        TaxRule taxRule = new ();
+        TaxRuleDto taxRuleDto = new();
+        TaxRule taxRule = new();
         _mockMapper.Setup(m => m.Map<TaxRule>(taxRuleDto)).Returns(taxRule);
         _mockUnitOfWork.Setup(uow => uow.TaxRules.AddAsync(taxRule)).Returns(Task.CompletedTask);
         _mockUnitOfWork.Setup(uow => uow.CommitAsync()).ReturnsAsync(true);
@@ -93,8 +88,8 @@ public class TaxRulesControllerTests
     {
         // Arrange
         int id = 1;
-        TaxRuleDto taxRuleDto = new ();
-        TaxRule taxRule = new ();
+        TaxRuleDto taxRuleDto = new();
+        TaxRule taxRule = new();
         _mockMapper.Setup(m => m.Map<TaxRule>(taxRuleDto)).Returns(taxRule);
         _mockUnitOfWork.Setup(uow => uow.TaxRules.ExistsAsync(id)).ReturnsAsync(true);
         _mockUnitOfWork.Setup(uow => uow.TaxRules.Update(taxRule));
@@ -135,7 +130,7 @@ public class TaxRulesControllerTests
         DefaultPaginationFilter filter = new();
         List<TaxRule> taxRules = [new()];
         _mockUnitOfWork.Setup(uow => uow.TaxRules.GetTaxRulesByFilterAsync(filter)).ReturnsAsync(taxRules);
-        List<TaxRuleDto> taxRuleDtos = [new ()];
+        List<TaxRuleDto> taxRuleDtos = [new()];
         _mockMapper.Setup(m => m.Map<List<TaxRuleDto>>(taxRules)).Returns(taxRuleDtos);
 
         // Act

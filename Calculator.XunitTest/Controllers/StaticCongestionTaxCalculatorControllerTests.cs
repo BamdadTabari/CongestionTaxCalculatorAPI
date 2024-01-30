@@ -5,11 +5,6 @@ using Calculator.Shared.Services.BaseAndConfigs;
 using CongestionTaxCalculator.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.XunitTest.Controllers;
 public class StaticCongestionTaxCalculatorControllerTests
@@ -27,7 +22,7 @@ public class StaticCongestionTaxCalculatorControllerTests
     public async Task GetCalculatedTaxForSpesificDatesTest_ReturnsOkResultWithCorrectTax()
     {
         // Arrange
-        CalculateByDatesAndVehicleRequest request = new(VehicleType.Car, [ DateTime.Now ]);
+        CalculateByDatesAndVehicleRequest request = new(VehicleType.Car, [DateTime.Now]);
         decimal expectedTax = 50m;
         _mockUnitOfWork.Setup(uow => uow.DynamicTaxCalculator.CalculateTotalFeeForDateTimesAsync(It.IsAny<VehicleType>(), It.IsAny<DateTime[]>(), It.IsAny<DateTime>()))
             .ReturnsAsync(expectedTax);
@@ -45,7 +40,7 @@ public class StaticCongestionTaxCalculatorControllerTests
     public async Task GetGothenburgCalculatedTaxForSpesificDateTest_ReturnsOkResultWithCorrectTax()
     {
         // Arrange
-        CalculateByDateAndVehicleRequest request = new (VehicleType.Car, DateTime.Now);
+        CalculateByDateAndVehicleRequest request = new(VehicleType.Car, DateTime.Now);
         decimal expectedTax = 50m;
         _mockUnitOfWork.Setup(uow => uow.DynamicTaxCalculator.GetTollFeeForDateTimeAsync(It.IsAny<DateTime>(), It.IsAny<VehicleType>()))
             .ReturnsAsync(expectedTax);
